@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:youapp/util/app_color.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  //final AppSharePreference user = AppSharePreference();
+  String? userId;
+
+  @override
+  void initState() {
+    getDataFromSharedPreference();
+    super.initState();
+  }
+
+  getDataFromSharedPreference() async {
+    if (userId != null) {
+      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    } else {
+      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+
+      //   AppRouter.changeRoute<AuthModule>(AuthRoutes.login);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: YouAppColor.primaryColor,
+      body: Container(
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Image.asset('assets/imgs/gymbg.jpg'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
