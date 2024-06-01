@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/auth/login/login.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_logger.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,24 +15,25 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    logger.e("i enter here");
     getDataFromSharedPreference();
     super.initState();
   }
 
   getDataFromSharedPreference() async {
-    if (userId != null) {
-      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-    } else {
-      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-
-      //   AppRouter.changeRoute<AuthModule>(AuthRoutes.login);
-    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LoginWidget()));
+    // if (userId != null) {
+    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    // } else {
+    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: YouAppColor.primaryColor,
+      backgroundColor: YouAppColor.mainColor,
       body: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
         child: Center(
@@ -40,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Image.asset('assets/imgs/gymbg.jpg'),
+                child: Image.asset('assets/images/insight.png'),
               ),
             ],
           ),
