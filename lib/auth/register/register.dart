@@ -5,6 +5,7 @@ import 'package:youapp/enum/status.dart';
 import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/register/auth_bloc.dart';
 import 'package:youapp/response/authresponse.dart';
+import 'package:youapp/profile/user_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
@@ -198,11 +199,13 @@ class RegisterWidgetState extends State<RegisterWidget> {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   onPressed: () {
-                    context.read<AuthBloc>().add(RegisterEvent(
-                        authRequestModel: AuthRequestModel(
-                            name: _nameController.text.toString(),
-                            password: _passwordController.text.toString(),
-                            username: _nameController.text.toString())));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const UserProfile()));
+                    // context.read<AuthBloc>().add(RegisterEvent(
+                    //     authRequestModel: AuthRequestModel(
+                    //         name: _nameController.text.toString(),
+                    //         password: _passwordController.text.toString(),
+                    //         username: _nameController.text.toString())));
                     // showDialog(
                     //   barrierDismissible: false,
                     //   context: context,
