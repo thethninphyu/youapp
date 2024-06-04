@@ -22,13 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getDataFromSharedPreference() async {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const LoginWidget()));
-    // if (userId != null) {
-    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-    // } else {
-    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-    // }
+    if (userId != null) {
+      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    } else {
+      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    }
   }
 
   @override
@@ -38,15 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Image.asset('assets/images/insight.png'),
-              ),
-            ],
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Image.asset('assets/images/insight.png'),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
@@ -133,14 +134,16 @@ class LoginWidgetState extends State<LoginWidget> {
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               onPressed: () {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return YouAppLoadingDialog(
-                        controller: _loginDialogController, onLoading: () {});
-                  },
-                );
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const EditProfile()));
+                // showDialog(
+                //   barrierDismissible: false,
+                //   context: context,
+                //   builder: (context) {
+                //     return YouAppLoadingDialog(
+                //         controller: _loginDialogController, onLoading: () {});
+                //   },
+                // );
               },
             ),
             const SizedBox(height: 20),
