@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/widgets/background.dart';
 
@@ -51,7 +52,7 @@ class UserProfile extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             buildTextField('Display name:', 'Enter name'),
-            buildDropdownField('Gender:', 'Select Gender'),
+            buildDropdownField('Gender:', 'Select Gender', context),
             buildTextField('Birthday:', 'DD MM YYYY'),
             buildTextField('Horoscope:', '--'),
             buildTextField('Zodiac:', '--'),
@@ -96,7 +97,7 @@ class UserProfile extends StatelessWidget {
     );
   }
 
-  Widget buildDropdownField(String label, String hint) {
+  Widget buildDropdownField(String label, String hint, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(

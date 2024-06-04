@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/auth/login/login.dart';
 import 'package:youapp/auth/register/register.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_logger.dart';
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getDataFromSharedPreference() async {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const RegisterWidget()));
+        .push(MaterialPageRoute(builder: (context) => const LoginWidget()));
     // if (userId != null) {
     //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
     // } else {
