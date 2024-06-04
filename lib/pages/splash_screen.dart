@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youapp/auth/login/login.dart';
-import 'package:youapp/auth/register/register.dart';
+import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_logger.dart';
 
@@ -22,11 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getDataFromSharedPreference() async {
-    if (userId != null) {
-      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-    } else {
-      // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
-    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const EditProfile()));
+    // if (userId != null) {
+    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    // } else {
+    //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
+    // }
   }
 
   @override
