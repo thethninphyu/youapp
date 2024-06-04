@@ -10,4 +10,5 @@ class YouAppColor {
   static const Color badgeColor = Color(0xFFA01313);
   static const Color grey = Color(0xFF9E9E9E);
   static const Color goldColor = Color(0xFFdbbb49);
+  static const Color cardColor = Color(0xF0E191F);
 }
