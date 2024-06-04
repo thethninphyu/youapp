@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/auth/login/login.dart';
+import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_logger.dart';
-import 'package:youapp/widgets/interested.dart';
-import 'package:youapp/widgets/update_interest.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getDataFromSharedPreference() async {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const UpdateInterestWidget()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const EditProfile()));
     // if (userId != null) {
     //   // AppRouter.changeRoute<HomeModule>(HomeRoutes.root, isReplaceAll: true);
     // } else {
