@@ -4,11 +4,13 @@ import 'package:youapp/util/app_color.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appTitle;
   final VoidCallback? onPressed;
+  final List<Widget>? actions;
 
   const CustomAppBar({
     super.key,
     required this.appTitle,
     this.onPressed,
+    this.actions,
   });
 
   @override
@@ -16,6 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: YouAppColor.thinBlack,
       centerTitle: true,
+      actions: actions,
       title: Text(
         appTitle,
         style: const TextStyle(color: YouAppColor.whiteColor, fontSize: 16),
@@ -34,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(
               'Back',
               style: TextStyle(fontSize: 14, color: YouAppColor.whiteColor),
-            )
+            ),
           ],
         ),
       ),

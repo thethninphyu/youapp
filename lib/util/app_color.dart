@@ -11,4 +11,7 @@ class YouAppColor {
   static const Color grey = Color(0xFF9E9E9E);
   static const Color goldColor = Color(0xFFdbbb49);
   static const Color cardColor = Color(0xF0E191F);
+  static const Color gardientOne = Color(0xABFFFD);
+  static const Color gardientTwo = Color(0x4599DB);
+  static const Color gardientThree = Color(0xAADAFF);
 }
