@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/profile/user_profile.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -32,43 +33,52 @@ class _EditProfileState extends State<EditProfile> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[900],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                const Positioned(
-                  left: 16,
-                  bottom: 16,
-                  child: Text(
-                    '@johndoe123,',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            Expanded(
+              flex: 3,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-              ],
+                  const Positioned(
+                    left: 16,
+                    bottom: 16,
+                    child: Text(
+                      '@johndoe123,',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 20),
-            InkWell(
-                onTap: () {
-                  setState(() {
-                    show = true;
-                  });
-                },
-                child: !show
-                    ? buildInfoCard('About',
-                        'Add in your bio to help others know you better')
-                    : editAboutUserForm()),
+            Expanded(
+              flex: 6,
+              child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      show = !show;
+                    });
+                  },
+                  child: !show
+                      ? buildInfoCard('About',
+                          'Add in your bio to help others know you better')
+                      : const UserProfile()),
+            ),
             const SizedBox(height: 20),
-            buildInfoCard(
-                'Interest', 'Add in your interest to find a better match'),
+            Expanded(
+              flex: 1,
+              child: buildInfoCard(
+                  'Interest', 'Add in your interest to find a better match'),
+            ),
           ],
         ),
       ),
@@ -111,42 +121,6 @@ class _EditProfileState extends State<EditProfile> {
             },
             icon: const Icon(Icons.edit, color: Colors.grey),
           ),
-        ],
-      ),
-    );
-  }
-
-  editAboutUserForm() {
-    SizedBox(
-      height: 100,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.add, color: Colors.white),
-              ),
-              const SizedBox(width: 10),
-              const Text(
-                'Add image',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          buildTextField('Display name:', 'Enter name'),
-          buildTextField('Gender:', 'Select Gender'),
-          buildTextField('Birthday:', 'DD MM YYYY'),
-          buildTextField('Horoscope:', '--'),
-          buildTextField('Zodiac:', '--'),
-          buildTextField('Height:', 'Add height'),
-          buildTextField('Weight:', 'Add weight'),
         ],
       ),
     );
