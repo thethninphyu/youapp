@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/user_profile.dart';
 import 'package:youapp/profile/user_profile_body.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/util/app_router.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -108,9 +111,13 @@ class _EditProfileState extends State<EditProfile> {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {
-              setState(() {
-                show = !show;
-              });
+              if (title == "Interest") {
+                AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest);
+              } else {
+                setState(() {
+                  show = !show;
+                });
+              }
             },
             icon: const Icon(Icons.edit, color: Colors.grey),
           ),
