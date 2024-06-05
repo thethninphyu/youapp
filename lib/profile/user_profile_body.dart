@@ -13,7 +13,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: ListView(
+      child: Column(
         children: [
           Row(
             children: [

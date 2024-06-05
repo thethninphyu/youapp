@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youapp/profile/user_profile.dart';
+import 'package:youapp/profile/user_profile_body.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -29,57 +30,47 @@ class _EditProfileState extends State<EditProfile> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Stack(
-                children: [
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 16,
-                    bottom: 16,
-                    child: Text(
-                      '@johndoe123,',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Profile Header
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Stack(
+                  children: [
+                    Positioned(
+                      left: 16,
+                      bottom: 16,
+                      child: Text(
+                        '@johndoe123,',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              flex: 6,
-              child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      show = !show;
-                    });
-                  },
-                  child: !show
-                      ? buildInfoCard('About',
-                          'Add in your bio to help others know you better')
-                      : const UserProfile()),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              flex: 1,
-              child: buildInfoCard(
+              const SizedBox(height: 20),
+              // About Section
+              !show
+                  ? buildInfoCard(
+                      'About', 'Add in your bio to help others know you better')
+                  : const UserProfileBody(),
+              const SizedBox(height: 20),
+              // Interests Section
+              buildInfoCard(
                   'Interest', 'Add in your interest to find a better match'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -117,7 +108,9 @@ class _EditProfileState extends State<EditProfile> {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {
-              // Handle edit action
+              setState(() {
+                show = !show;
+              });
             },
             icon: const Icon(Icons.edit, color: Colors.grey),
           ),

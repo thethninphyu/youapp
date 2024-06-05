@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/user_profile_body.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_router.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
@@ -18,7 +21,7 @@ class UserProfile extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                // Handle save & update action
+                AppRouter.changeRoute<ProfileModule>(ProfileRoutes.about);
               },
               child: const Text(
                 'Save & Update',

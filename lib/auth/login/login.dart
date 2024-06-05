@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:youapp/edit/edit_profile.dart';
+import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_router.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
 import 'package:youapp/widgets/you_app_loading_dialog.dart';
@@ -134,8 +137,8 @@ class LoginWidgetState extends State<LoginWidget> {
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const EditProfile()));
+                AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+                    isReplaceAll: true);
                 // showDialog(
                 //   barrierDismissible: false,
                 //   context: context,
