@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/util/app_color.dart';
@@ -18,7 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    logger.e("i enter here");
     getDataFromSharedPreference();
     super.initState();
   }

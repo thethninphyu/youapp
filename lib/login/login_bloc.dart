@@ -20,11 +20,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(addStatus: Status.loading));
         final response = await repository.loginApi(event.loginRequestModel);
 
-        final loginResponse = AuthResponse.fromJosn(response);
+        final loginResponse = AuthResponse.fromJson(response);
 
         emit(
             state.copyWith(addStatus: Status.success, response: loginResponse));
-        EasyLoading.showSuccess(loginResponse.status);
+        EasyLoading.showSuccess(loginResponse.message);
       } catch (e) {
         emit(state.copyWith(addStatus: Status.failed));
       }

@@ -16,7 +16,7 @@ class CustomContainer extends StatelessWidget {
         onPressed: () {},
       ),
       body: GradientBackground(
-        child: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
@@ -65,16 +65,23 @@ class CustomContainer extends StatelessWidget {
                           width: 97,
                           height: 36,
                           decoration: BoxDecoration(
-                              color: const Color.fromARGB(100, 22, 44, 33),
-                              borderRadius: BorderRadius.circular(50)),
+                            color: const Color.fromARGB(100, 22, 44, 33),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Icon(FontAwesomeIcons.piggyBank,
-                                  size: 16, color: YouAppColor.whiteColor),
-                              Text('Virgo',
-                                  style:
-                                      TextStyle(color: YouAppColor.whiteColor))
+                              Icon(
+                                FontAwesomeIcons.piggyBank,
+                                size: 16,
+                                color: YouAppColor.whiteColor,
+                              ),
+                              Text(
+                                'Virgo',
+                                style: TextStyle(
+                                  color: YouAppColor.whiteColor,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -87,20 +94,23 @@ class CustomContainer extends StatelessWidget {
                           width: 97,
                           height: 36,
                           decoration: BoxDecoration(
-                              color: const Color.fromARGB(100, 22, 44, 33),
-                              borderRadius: BorderRadius.circular(50)),
+                            color: const Color.fromARGB(100, 22, 44, 33),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Icon(
                                 FontAwesomeIcons.piggyBank,
-                                color: YouAppColor.whiteColor,
                                 size: 16,
+                                color: YouAppColor.whiteColor,
                               ),
-                              Text('Pig',
-                                  style: TextStyle(
-                                    color: YouAppColor.whiteColor,
-                                  ))
+                              Text(
+                                'Pig',
+                                style: TextStyle(
+                                  color: YouAppColor.whiteColor,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -109,14 +119,13 @@ class CustomContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: YouAppColor.cardColor),
+                  borderRadius: BorderRadius.circular(20),
+                  color: YouAppColor.cardColor,
+                ),
                 height: 219,
                 width: 359,
                 child: Column(
@@ -128,115 +137,131 @@ class CustomContainer extends StatelessWidget {
                         const Text(
                           'About',
                           style: TextStyle(
-                              color: YouAppColor.whiteColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                            color: YouAppColor.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.edit,
-                              color: YouAppColor.whiteColor,
-                            ))
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.edit,
+                            color: YouAppColor.whiteColor,
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     RichText(
-                        text: const TextSpan(
-                            text: 'Birthday : ',
-                            style: TextStyle(
-                                color: YouAppColor.grey, fontSize: 16),
-                            children: [
+                      text: const TextSpan(
+                        text: 'Birthday : ',
+                        style: TextStyle(
+                          color: YouAppColor.grey,
+                          fontSize: 16,
+                        ),
+                        children: [
                           TextSpan(
-                            text: ' 28 / 08 / 1997(Age 28)',
+                            text: ' 28 / 08 / 1997 (Age 28)',
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.whiteColor),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: YouAppColor.whiteColor,
+                            ),
                           ),
-                        ])),
-                    const SizedBox(
-                      height: 15,
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: 15),
                     RichText(
-                        text: const TextSpan(
-                            text: 'Horocode : ',
-                            style: TextStyle(
-                                color: YouAppColor.grey, fontSize: 16),
-                            children: [
+                      text: const TextSpan(
+                        text: 'Horoscope : ',
+                        style: TextStyle(
+                          color: YouAppColor.grey,
+                          fontSize: 16,
+                        ),
+                        children: [
                           TextSpan(
                             text: ' Virgo',
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.whiteColor),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: YouAppColor.whiteColor,
+                            ),
                           ),
-                        ])),
-                    const SizedBox(
-                      height: 15,
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: 15),
                     RichText(
-                        text: const TextSpan(
-                            text: 'Zodia : ',
-                            style: TextStyle(
-                                color: YouAppColor.grey, fontSize: 16),
-                            children: [
+                      text: const TextSpan(
+                        text: 'Zodiac : ',
+                        style: TextStyle(
+                          color: YouAppColor.grey,
+                          fontSize: 16,
+                        ),
+                        children: [
                           TextSpan(
                             text: ' Pig',
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.whiteColor),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: YouAppColor.whiteColor,
+                            ),
                           ),
-                        ])),
-                    const SizedBox(
-                      height: 15,
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: 15),
                     RichText(
-                        text: const TextSpan(
-                            text: 'Height : ',
-                            style: TextStyle(
-                                color: YouAppColor.grey, fontSize: 16),
-                            children: [
+                      text: const TextSpan(
+                        text: 'Height : ',
+                        style: TextStyle(
+                          color: YouAppColor.grey,
+                          fontSize: 16,
+                        ),
+                        children: [
                           TextSpan(
-                            text: ' 175 cm ',
+                            text: ' 175 cm',
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.whiteColor),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: YouAppColor.whiteColor,
+                            ),
                           ),
-                        ])),
-                    const SizedBox(
-                      height: 15,
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: 15),
                     RichText(
-                        text: const TextSpan(
-                            text: 'Weight : ',
-                            style: TextStyle(
-                                color: YouAppColor.grey, fontSize: 16),
-                            children: [
+                      text: const TextSpan(
+                        text: 'Weight : ',
+                        style: TextStyle(
+                          color: YouAppColor.grey,
+                          fontSize: 16,
+                        ),
+                        children: [
                           TextSpan(
-                            text: ' 69 kg  ',
+                            text: ' 69 kg',
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.whiteColor),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: YouAppColor.whiteColor,
+                            ),
                           ),
-                        ])),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 25),
               Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 22.0),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: YouAppColor.cardColor),
-                padding: const EdgeInsets.only(
-                    left: 16.0, right: 16.0, bottom: 22.0),
+                  borderRadius: BorderRadius.circular(20),
+                  color: YouAppColor.cardColor,
+                ),
                 height: 109,
                 width: 359,
                 child: Column(
@@ -253,20 +278,25 @@ class CustomContainer extends StatelessWidget {
                               fontSize: 16),
                         ),
                         IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.edit,
-                              color: YouAppColor.whiteColor,
-                            ))
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.edit,
+                            color: YouAppColor.whiteColor,
+                          ),
+                        ),
                       ],
                     ),
+                    const SizedBox(height: 10),
                     const Text(
-                      'Add in your interest to find a better match. ',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                      'Add in your interest to find a better match.',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

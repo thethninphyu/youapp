@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/custom_app_bar.dart';
 import 'package:youapp/widgets/background.dart';

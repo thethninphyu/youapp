@@ -1,15 +1,16 @@
 class AuthRequestModel {
-  final String name;
-  final String username;
-  final String password;
+  String username;
+  String email;
+  String password;
 
   AuthRequestModel(
-      {required this.name, required this.password, required this.username});
+      {required this.username, required this.email, required this.password});
 
-  factory AuthRequestModel.toJson(Map<String, dynamic> json) {
-    return AuthRequestModel(
-        name: json['name'],
-        password: json['password'],
-        username: json['username']);
+  Map<String, dynamic> toJson() {
+    return {
+      'username': username,
+      'email': email,
+      'password': password,
+    };
   }
 }

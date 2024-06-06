@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:youapp/edit/edit_profile.dart';
+import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_router.dart';
@@ -153,10 +154,20 @@ class LoginWidgetState extends State<LoginWidget> {
             Align(
               alignment: Alignment.centerRight,
               child: RichText(
-                text: TextSpan(
-                  text: 'No account? Register here',
-                  recognizer: TapGestureRecognizer()..onTap = () => [],
-                ),
+                text: TextSpan(text: 'No account?', children: [
+                  TextSpan(
+                    text: ' Register here',
+                    style: const TextStyle(
+                      color: YouAppColor.goldColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        AppRouter.changeRoute<AuthModule>(AuthRoutes.register,
+                            isReplaceAll: true);
+                      },
+                  ),
+                ]),
               ),
             ),
             const SizedBox(height: 20),

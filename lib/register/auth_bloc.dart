@@ -5,7 +5,6 @@ import 'package:youapp/auth_repository/auth_repo.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/response/authresponse.dart';
-import 'package:youapp/util/app_logger.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -17,17 +16,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) {});
 
     on<RegisterEvent>((event, emit) async {
+      // logger.d("Request model is ${event.authRequestModel.toJson().values}");
       try {
         emit(state.copyWith(addStatus: Status.loading));
-        final response = await repository.registerApi(event.authRequestModel);
+        final response =
+            await repository.registerApi(event.authRequestModel.toJson());
 
-        logger.e("rp is $response");
+        final authResponse = AuthResponse.fromJson(response);
 
-        final authResponse = AuthResponse.fromJosn(response);
-        logger.e("Register rp is $response");
-
-        emit(state.copyWith(addStatus: Status.initial, response: authResponse));
-        EasyLoading.showSuccess(authResponse.status);
+        emit(state.copyWith(addStatus: Status.success, response: authResponse));
+        EasyLoading.showSuccess(authResponse.message);
       } catch (e) {
         emit(state.copyWith(
           addStatus: Status.failed,

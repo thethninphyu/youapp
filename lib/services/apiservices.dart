@@ -10,12 +10,9 @@ class DioProvider {
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
       baseUrl: AppBaseUrls.baseUrl,
-      contentType: 'application/json',
     );
 
     _dio.interceptors.add(RequestInterceptor());
-
-    //logger.e("Dio Headers: ${_dio.options.headers}");
 
     return _dio;
   }

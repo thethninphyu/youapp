@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youapp/module/profile/profile_module.dart';
-import 'package:youapp/profile/user_profile.dart';
 import 'package:youapp/profile/user_profile_body.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_router.dart';

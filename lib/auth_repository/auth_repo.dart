@@ -7,6 +7,7 @@ class AuthRepository {
   BaseApiServices apiServices = NetworkApiService();
 
   Future<dynamic> registerApi(dynamic data) async {
+  
     try {
       dynamic response =
           await apiServices.postApiResponse(AppBaseUrls.registerEndPoint, data);
@@ -14,7 +15,7 @@ class AuthRepository {
 
       return response;
     } catch (e) {
-      logger.e(e);
+      logger.e("Register api errro is $e");
       rethrow;
     }
   }

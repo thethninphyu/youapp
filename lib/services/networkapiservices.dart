@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:youapp/services/app_exception.dart';
 import 'package:youapp/services/baseapiservices.dart';
+import 'package:youapp/util/app_logger.dart';
 
 class NetworkApiService extends BaseApiServices {
   @override
@@ -26,8 +27,6 @@ class NetworkApiService extends BaseApiServices {
 
     try {
       final response = await dio.get(url).timeout(const Duration(seconds: 15));
-
-      //   logger.e("Response is $response");
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -39,16 +38,18 @@ class NetworkApiService extends BaseApiServices {
   Future postApiResponse(String url, data) async {
     dynamic responseJson;
 
+    logger.d("Reach here");
     try {
       final response =
           await dio.post(url, data: data).timeout(const Duration(seconds: 15));
-      // logger.e("Add Class Response Status code is ${response.statusCode}");
 
       responseJson = returnResponse(response);
-      // logger.e("Response json is $responseJson");
+      logger.d("Response json is $responseJson");
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
+
+    logger.d("Network api services $responseJson");
     return responseJson;
   }
 
@@ -60,8 +61,6 @@ class NetworkApiService extends BaseApiServices {
 
 dynamic returnResponse(Response response) {
   switch (response.statusCode) {
-    case 200:
-      return response.data;
     case 201:
       return response.data;
     case 400:

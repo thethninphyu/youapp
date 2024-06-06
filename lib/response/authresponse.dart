@@ -1,8 +1,9 @@
 class AuthResponse {
-  final String status;
-  AuthResponse({required this.status});
+  final String message;
 
-  factory AuthResponse.fromJosn(Map<String, dynamic> json) {
-    return AuthResponse(status: json['status']);
+  AuthResponse({required this.message});
+
+  factory AuthResponse.fromJson(Map<String, dynamic> json) {
+    return AuthResponse(message: json['message']);
   }
 }

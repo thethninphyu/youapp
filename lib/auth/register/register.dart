@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/enum/status.dart';
+import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/register/auth_bloc.dart';
 import 'package:youapp/response/authresponse.dart';
-import 'package:youapp/profile/user_profile.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
@@ -21,8 +20,10 @@ class RegisterWidget extends StatefulWidget {
 class RegisterWidgetState extends State<RegisterWidget> {
   final ScrollController _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
-  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _confirmPassFocus = FocusNode();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -44,6 +45,8 @@ class RegisterWidgetState extends State<RegisterWidget> {
   void dispose() {
     _emailController.dispose();
     _nameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -127,30 +130,30 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: _nameController,
-                  focusNode: _phoneFocus,
+                  controller: _emailController,
+                  focusNode: _emailFocus,
                   cursorColor: YouAppColor.whiteColor,
                   textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                   style: const TextStyle(color: YouAppColor.whiteColor),
                   decoration:
-                      _getInputDec(_phoneFocus.hasFocus ? "" : "Enter Email"),
+                      _getInputDec(_emailFocus.hasFocus ? "" : "Enter Email"),
                   onFieldSubmitted: (_) =>
-                      _fieldFocusChange(context, _phoneFocus, _passwordFocus),
+                      _fieldFocusChange(context, _nameFocus, _passwordFocus),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
-                  controller: _emailController,
-                  focusNode: _phoneFocus,
+                  controller: _nameController,
+                  focusNode: _nameFocus,
                   cursorColor: YouAppColor.whiteColor,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   style: const TextStyle(color: YouAppColor.whiteColor),
-                  decoration: _getInputDec("User Name"),
+                  decoration: _getInputDec("Name"),
                   onFieldSubmitted: (_) =>
-                      _fieldFocusChange(context, _phoneFocus, _passwordFocus),
+                      _fieldFocusChange(context, _nameFocus, _passwordFocus),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -176,7 +179,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 TextFormField(
                   controller: _confirmPasswordController,
-                  focusNode: _passwordFocus,
+                  focusNode: _confirmPassFocus,
                   cursorColor: YouAppColor.whiteColor,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: _hidePwd,
@@ -199,19 +202,12 @@ class RegisterWidgetState extends State<RegisterWidget> {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   onPressed: () {
-                    // context.read<AuthBloc>().add(RegisterEvent(
-                    //     authRequestModel: AuthRequestModel(
-                    //         name: _nameController.text.toString(),
-                    //         password: _passwordController.text.toString(),
-                    //         username: _nameController.text.toString())));
-                    // showDialog(
-                    //   barrierDismissible: false,
-                    //   context: context,
-                    //   builder: (context) {
-                    //     return YouAppLoadingDialog(
-                    //         controller: _loginDialogController, onLoading: () {});
-                    //   },
-                    // );
+                    context.read<AuthBloc>().add(RegisterEvent(
+                            authRequestModel: AuthRequestModel(
+                          username: _nameController.text.toString(),
+                          email: _emailController.text.toString(),
+                          password: _passwordController.text.toString(),
+                        )));
                   },
                 ),
                 const SizedBox(height: 20),
