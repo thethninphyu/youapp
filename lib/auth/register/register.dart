@@ -6,9 +6,9 @@ import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/register/auth_bloc.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/validator.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
-import 'package:youapp/widgets/you_app_loading_dialog.dart';
 
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({super.key});
@@ -33,8 +33,8 @@ class RegisterWidgetState extends State<RegisterWidget> {
   bool isButtonDisable = false;
   AuthResponse? responseData;
 
-  final LoadingDialogController _loginDialogController =
-      LoadingDialogController();
+  // final LoadingDialogController _loginDialogController =
+  //     LoadingDialogController();
 
   @override
   void initState() {
@@ -136,6 +136,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   style: const TextStyle(color: YouAppColor.whiteColor),
+                  validator: validateEmail,
                   decoration:
                       _getInputDec(_emailFocus.hasFocus ? "" : "Enter Email"),
                   onFieldSubmitted: (_) =>
@@ -150,6 +151,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   cursorColor: YouAppColor.whiteColor,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
+                  validator: validateUserName,
                   style: const TextStyle(color: YouAppColor.whiteColor),
                   decoration: _getInputDec("Name"),
                   onFieldSubmitted: (_) =>
@@ -159,6 +161,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 TextFormField(
                   controller: _passwordController,
                   focusNode: _passwordFocus,
+                  validator: validatePassword,
                   cursorColor: YouAppColor.whiteColor,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: _hidePwd,
@@ -180,6 +183,8 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 TextFormField(
                   controller: _confirmPasswordController,
                   focusNode: _confirmPassFocus,
+                  validator: (value) =>
+                      validateConfirmPassword(value, _passwordController.text),
                   cursorColor: YouAppColor.whiteColor,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: _hidePwd,
@@ -202,12 +207,14 @@ class RegisterWidgetState extends State<RegisterWidget> {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   onPressed: () {
-                    context.read<AuthBloc>().add(RegisterEvent(
-                            authRequestModel: AuthRequestModel(
-                          username: _nameController.text.toString(),
-                          email: _emailController.text.toString(),
-                          password: _passwordController.text.toString(),
-                        )));
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(RegisterEvent(
+                              authRequestModel: AuthRequestModel(
+                            username: _nameController.text.toString(),
+                            email: _emailController.text.toString(),
+                            password: _passwordController.text.toString(),
+                          )));
+                    }
                   },
                 ),
                 const SizedBox(height: 20),

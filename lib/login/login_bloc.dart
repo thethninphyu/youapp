@@ -3,28 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:youapp/auth_repository/auth_repo.dart';
 import 'package:youapp/enum/status.dart';
+import 'package:youapp/model/authrequest_model.dart';
+import 'package:youapp/module/profile/profile_module.dart';
 
-import 'package:youapp/model/loginrequest_model.dart';
 import 'package:youapp/response/authresponse.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/services/share_preference.dart';
+import 'package:youapp/util/app_router.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository repository = AuthRepository();
+  final SharePreferenceData sharePreferenceData = SharePreferenceData();
+
   LoginBloc() : super(const LoginState(addStatus: Status.initial)) {
     on<LoginEvent>((event, emit) {});
 
     on<LoginRequestEvent>(((event, emit) async {
       try {
         emit(state.copyWith(addStatus: Status.loading));
+
         final response = await repository.loginApi(event.loginRequestModel);
+        final loginResponse = LoginResponse.fromJson(response);
 
-        final loginResponse = AuthResponse.fromJson(response);
+        if (loginResponse.access_token != null &&
+            loginResponse.access_token!.isEmpty) {
+          sharePreferenceData.setToken(loginResponse.access_token!);
+          EasyLoading.showSuccess(loginResponse.message);
+          emit(state.copyWith(
+            addStatus: Status.success,
+            response: loginResponse,
+          ));
 
-        emit(
-            state.copyWith(addStatus: Status.success, response: loginResponse));
-        EasyLoading.showSuccess(loginResponse.message);
+          AppRouter.changeRoute<ProfileModule>(
+            ProfileRoutes.profile,
+            isReplaceAll: true,
+          );
+        }
       } catch (e) {
         emit(state.copyWith(addStatus: Status.failed));
       }

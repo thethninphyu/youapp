@@ -7,15 +7,12 @@ class AuthRepository {
   BaseApiServices apiServices = NetworkApiService();
 
   Future<dynamic> registerApi(dynamic data) async {
-  
     try {
       dynamic response =
           await apiServices.postApiResponse(AppBaseUrls.registerEndPoint, data);
-      logger.e(response);
 
       return response;
     } catch (e) {
-      logger.e("Register api errro is $e");
       rethrow;
     }
   }
@@ -24,10 +21,10 @@ class AuthRepository {
     try {
       dynamic response =
           await apiServices.postApiResponse(AppBaseUrls.loginEndPoint, data);
-      logger.e(response);
+      logger.e("Login Response $response");
       return response;
     } catch (e) {
-      logger.e(e);
+      logger.e("Login Error $e");
       rethrow;
     }
   }

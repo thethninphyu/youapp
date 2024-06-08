@@ -7,10 +7,10 @@ class DioProvider {
 
   static Dio get dio {
     _dio.options = BaseOptions(
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      baseUrl: AppBaseUrls.baseUrl,
-    );
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
+        baseUrl: AppBaseUrls.baseUrl,
+        headers: {'Content-Type': 'application/json'});
 
     _dio.interceptors.add(RequestInterceptor());
 
