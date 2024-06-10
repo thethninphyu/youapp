@@ -1,5 +1,4 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:youapp/edit/edit_profile.dart';
 import 'package:youapp/profile/about_card.dart';
 import 'package:youapp/profile/interested.dart';
 import 'package:youapp/profile/user_profile.dart';
@@ -12,8 +11,6 @@ class ProfileModule extends Module {
             child: (context, args) => const UserProfile()),
         ChildRoute(ProfileRoutes.about,
             child: (context, args) => const AboutCard()),
-        ChildRoute(ProfileRoutes.editProfile,
-            child: (context, args) => const EditProfile()),
         ChildRoute(ProfileRoutes.interest,
             child: (context, args) => const CustomContainer()),
       ];
