@@ -4,6 +4,6 @@ part of 'login_bloc.dart';
 class LoginEvent {}
 
 class LoginRequestEvent extends LoginEvent {
-  final LoginRequestModel loginRequestModel;
+  final AuthRequestModel loginRequestModel;
   LoginRequestEvent({required this.loginRequestModel});
 }

@@ -3,13 +3,13 @@ part of 'login_bloc.dart';
 @immutable
 class LoginState {
   final Status addStatus;
-  final AuthResponse? response;
+  final LoginResponse? response;
 
   const LoginState({required this.addStatus, this.response});
 
   LoginState copyWith({
     Status? addStatus,
-    AuthResponse? response,
+    LoginResponse? response,
   }) {
     return LoginState(
         addStatus: addStatus ?? this.addStatus,

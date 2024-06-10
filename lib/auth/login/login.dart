@@ -1,14 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youapp/enum/status.dart';
+import 'package:youapp/login/login_bloc.dart';
+import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/module/auth/auth_module.dart';
-import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
-import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_router.dart';
+import 'package:youapp/util/validator.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
-import 'package:youapp/widgets/you_app_loading_dialog.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -20,14 +23,20 @@ class LoginWidget extends StatefulWidget {
 class LoginWidgetState extends State<LoginWidget> {
   final ScrollController _scrollController = ScrollController();
   final _formKey = GlobalKey<FormState>();
-  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
-  final TextEditingController _phoneController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  bool isEnableBtn = false;
   bool _hidePwd = true;
 
-  final LoadingDialogController _loginDialogController =
-      LoadingDialogController();
+  LoginResponse? loginResponse;
+
+  // final LoadingDialogController _loginDialogController =
+  //     LoadingDialogController();
 
   @override
   void initState() {
@@ -36,7 +45,7 @@ class LoginWidgetState extends State<LoginWidget> {
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -80,101 +89,132 @@ class LoginWidgetState extends State<LoginWidget> {
   }
 
   Widget _getForm() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.all(26),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.only(left: 41.0),
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  color: YouAppColor.whiteColor,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _phoneController,
-              focusNode: _phoneFocus,
-              cursorColor: YouAppColor.whiteColor,
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.phone,
-              style: const TextStyle(color: YouAppColor.whiteColor),
-              decoration: _getInputDec(
-                  _phoneFocus.hasFocus ? "" : "Enter Username/Email"),
-              onFieldSubmitted: (_) =>
-                  _fieldFocusChange(context, _phoneFocus, _passwordFocus),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _passwordController,
-              focusNode: _passwordFocus,
-              cursorColor: YouAppColor.whiteColor,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: _hidePwd,
-              style: const TextStyle(color: YouAppColor.whiteColor),
-              textInputAction: TextInputAction.done,
-              decoration: _getInputDec(
-                _passwordFocus.hasFocus ? "" : "Enter Password",
-                suffixIcon: InkWell(
-                  child: const Icon(Icons.password),
-                  onTap: () => setState(() => _hidePwd = !_hidePwd),
-                ),
-              ),
-              onFieldSubmitted: (_) => _passwordFocus.unfocus(),
-            ),
-            const SizedBox(height: 24),
-            YouAppButton(
-              child: const Text(
-                "Login",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              onPressed: () {
-                AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
-                    isReplaceAll: true);
-                // showDialog(
-                //   barrierDismissible: false,
-                //   context: context,
-                //   builder: (context) {
-                //     return YouAppLoadingDialog(
-                //         controller: _loginDialogController, onLoading: () {});
-                //   },
-                // );
-              },
-            ),
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: RichText(
-                text: TextSpan(text: 'No account?', children: [
-                  TextSpan(
-                    text: ' Register here',
-                    style: const TextStyle(
-                      color: YouAppColor.goldColor,
-                      decoration: TextDecoration.underline,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        AppRouter.changeRoute<AuthModule>(AuthRoutes.register,
-                            isReplaceAll: true);
-                      },
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      switch (state.addStatus) {
+        case Status.loading:
+          const Center(
+            child: CircularProgressIndicator(),
+          );
+
+          break;
+
+        case Status.success:
+          loginResponse = state.response;
+
+          break;
+        case Status.failed:
+          const Center(
+            child: Text('Failed'),
+          );
+        default:
+      }
+
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(26),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 16),
+              const Padding(
+                padding: EdgeInsets.only(left: 41.0),
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    color: YouAppColor.whiteColor,
+                    fontSize: 24,
                   ),
-                ]),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-          ],
+              TextFormField(
+                controller: _nameController,
+                focusNode: _nameFocus,
+                cursorColor: YouAppColor.whiteColor,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                validator: validateUserName,
+                style: const TextStyle(color: YouAppColor.whiteColor),
+                decoration: _getInputDec("Name"),
+                onFieldSubmitted: (_) =>
+                    _fieldFocusChange(context, _nameFocus, _passwordFocus),
+              ),
+              const SizedBox(height: 8),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _emailController,
+                focusNode: _emailFocus,
+                cursorColor: YouAppColor.whiteColor,
+                validator: validateEmail,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(color: YouAppColor.whiteColor),
+                decoration: _getInputDec(
+                    _emailFocus.hasFocus ? "" : "Enter Username/Email"),
+                onFieldSubmitted: (_) =>
+                    _fieldFocusChange(context, _emailFocus, _passwordFocus),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _passwordController,
+                focusNode: _passwordFocus,
+                validator: validatePassword,
+                cursorColor: YouAppColor.whiteColor,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: _hidePwd,
+                style: const TextStyle(color: YouAppColor.whiteColor),
+                textInputAction: TextInputAction.done,
+                decoration: _getInputDec(
+                  _passwordFocus.hasFocus ? "" : "Enter Password",
+                  suffixIcon: InkWell(
+                    child: const Icon(Icons.password),
+                    onTap: () => setState(() => _hidePwd = !_hidePwd),
+                  ),
+                ),
+                onFieldSubmitted: (_) => _passwordFocus.unfocus(),
+              ),
+              const SizedBox(height: 24),
+              YouAppButton(
+                onPressed: () {
+                  context.read<LoginBloc>().add(LoginRequestEvent(
+                      loginRequestModel: AuthRequestModel(
+                          username: _nameController.text.toString(),
+                          password: _passwordController.text.toString(),
+                          email: _emailController.text.toString())));
+                },
+                child: const Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerRight,
+                child: RichText(
+                  text: TextSpan(text: 'No account?', children: [
+                    TextSpan(
+                      text: ' Register here',
+                      style: const TextStyle(
+                        color: YouAppColor.goldColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          AppRouter.changeRoute<AuthModule>(AuthRoutes.register,
+                              isReplaceAll: true);
+                        },
+                    ),
+                  ]),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   void _fieldFocusChange(

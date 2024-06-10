@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:youapp/login/login_bloc.dart';
 import 'package:youapp/register/auth_bloc.dart';
 import 'package:youapp/util/app_color.dart';
 
@@ -14,6 +15,9 @@ class YouApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LoginBloc(),
         ),
       ],
       child: MaterialApp.router(
