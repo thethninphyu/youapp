@@ -24,7 +24,6 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: Colors.black,
         elevation: 0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
@@ -34,19 +33,29 @@ class _UserProfileState extends State<UserProfile> {
                       "assets/images/back.png",
                       color: Colors.white,
                       width: 7,
-                      height: 14,
+                      height: 16,
                     )),
-                const Text(
-                  "Back",
-                  style: TextStyle(color: YouAppColor.whiteColor, fontSize: 14),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Back",
+                    style: TextStyle(
+                        color: YouAppColor.whiteColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
                 )
               ],
             ),
-            const Align(
-              alignment: Alignment.center,
-              child: Text(
-                '@johndoe123',
-                style: TextStyle(color: Colors.white),
+            const Expanded(
+              child: Center(
+                child: Text(
+                  '@johndoe123',
+                  style: TextStyle(
+                      color: YouAppColor.whiteColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],

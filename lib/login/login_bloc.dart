@@ -22,9 +22,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         final loginResponse = AuthResponse.fromJson(response);
 
+        EasyLoading.showSuccess(loginResponse.message);
         emit(
             state.copyWith(addStatus: Status.success, response: loginResponse));
-        EasyLoading.showSuccess(loginResponse.message);
       } catch (e) {
         emit(state.copyWith(addStatus: Status.failed));
       }
