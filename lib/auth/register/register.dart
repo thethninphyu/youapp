@@ -215,7 +215,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                             password: _passwordController.text.toString(),
                           )));
                     }
-                  },
+                  }
                 ),
                 const SizedBox(height: 20),
                 Align(

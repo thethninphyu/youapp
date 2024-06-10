@@ -29,6 +29,8 @@ class LoginWidgetState extends State<LoginWidget> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  bool isEnableBtn = false;
   bool _hidePwd = true;
 
   LoginResponse? loginResponse;
@@ -175,10 +177,6 @@ class LoginWidgetState extends State<LoginWidget> {
               ),
               const SizedBox(height: 24),
               YouAppButton(
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
                 onPressed: () {
                   context.read<LoginBloc>().add(LoginRequestEvent(
                       loginRequestModel: AuthRequestModel(
@@ -186,6 +184,10 @@ class LoginWidgetState extends State<LoginWidget> {
                           password: _passwordController.text.toString(),
                           email: _emailController.text.toString())));
                 },
+                child: const Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
               ),
               const SizedBox(height: 20),
               Align(
