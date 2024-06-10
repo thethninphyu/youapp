@@ -12,8 +12,10 @@ class YouAppColor {
   static const Color goldColor = Color(0xFFdbbb49);
   static const Color profileBackgroundColor = Color(0xFF0E191F);
   static const Color goldenColor = Color(0xFF94783E);
-  static const Color cardColor = Color(0xF0E191F);
-  static const Color gardientOne = Color(0xABFFFD);
-  static const Color gardientTwo = Color(0x4599DB);
-  static const Color gardientThree = Color(0xAADAFF);
+  static const Color cardColor = Color(0xFF0E191F);
+  static const Color gardientOne = Color(0xFFABFFFD);
+  static const Color gardientTwo = Color(0xFF4599DB);
+  static const Color gardientThree = Color(0xFFAADAFF);
+  static const Color imageBackgroundColor = Color(0xFF162329);
+  static const Color cardBackgroundColor = Color(0xFF0E191F);
 }
