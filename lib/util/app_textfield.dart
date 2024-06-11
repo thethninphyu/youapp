@@ -4,13 +4,19 @@ import 'package:youapp/util/app_color.dart';
 class AppTextField extends StatefulWidget {
   final String label;
   final String hint;
-  const AppTextField({super.key, required this.label, required this.hint});
+  final Function(String string) callBackController;
+  const AppTextField(
+      {super.key,
+      required this.label,
+      required this.hint,
+      required this.callBackController});
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
 }
 
 class _AppTextFieldState extends State<AppTextField> {
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,6 +39,10 @@ class _AppTextFieldState extends State<AppTextField> {
           Expanded(
             flex: 2,
             child: TextField(
+              controller: textEditingController,
+              onChanged: (value) {
+                widget.callBackController(value);
+              },
               decoration: InputDecoration(
                 hintText: widget.hint,
                 isDense: true,

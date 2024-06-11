@@ -3,7 +3,7 @@ class ProfileRequest {
   final String birthday;
   final String height;
   final String weight;
-  final String interests;
+  final List<String> interests;
 
   ProfileRequest(
       {required this.name,

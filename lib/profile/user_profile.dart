@@ -92,10 +92,7 @@ class _UserProfileState extends State<UserProfile> {
               ),
               const SizedBox(height: 20),
               // About Section
-              !show
-                  ? buildInfoCard(
-                      AppString.about, AppString.profileAboutDescription)
-                  : const UserProfileBody(),
+              createProfile(),
               const SizedBox(height: 20),
               // Interests Section
               buildInfoCard(AppString.interest, AppString.interest),
@@ -152,33 +149,39 @@ class _UserProfileState extends State<UserProfile> {
       ),
     );
   }
-}
 
-Widget buildTextField(String label, String placeholder) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
-        ),
-        const SizedBox(height: 5),
-        TextField(
-          decoration: InputDecoration(
-            hintText: placeholder,
-            hintStyle: const TextStyle(color: Colors.grey),
-            filled: true,
-            fillColor: Colors.grey[800],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
+  Widget createProfile() {
+    return !show
+        ? buildInfoCard(AppString.about, AppString.profileAboutDescription)
+        : const UserProfileBody();
+  }
+
+  Widget buildTextField(String label, String placeholder) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
           ),
-          style: const TextStyle(color: Colors.white),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: 5),
+          TextField(
+            decoration: InputDecoration(
+              hintText: placeholder,
+              hintStyle: const TextStyle(color: Colors.grey),
+              filled: true,
+              fillColor: Colors.grey[800],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
 }
