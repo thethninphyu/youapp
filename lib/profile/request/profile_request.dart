@@ -12,7 +12,17 @@ class ProfileRequest {
       required this.weight,
       required this.interests});
 
-  factory ProfileRequest.toJson(Map<String, dynamic> json) {
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'birthday': birthday,
+      'height': height,
+      'weight': weight,
+      'interests': interests,
+    };
+  }
+
+  factory ProfileRequest.fromJson(Map<String, dynamic> json) {
     return ProfileRequest(
         name: json['name'],
         birthday: json['birthday'],

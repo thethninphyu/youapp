@@ -6,9 +6,12 @@ import 'package:youapp/profile/bloc/profile_bloc.dart';
 import 'package:youapp/profile/request/profile_request.dart';
 import 'package:youapp/profile/response/profile_response.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/util/app_date_field.dart';
 import 'package:youapp/util/app_drop_down_field.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_logger.dart';
 import 'package:youapp/util/app_router.dart';
+import 'package:youapp/util/app_sign.dart';
 import 'package:youapp/util/app_textfield.dart';
 
 class UserProfileBody extends StatefulWidget {
@@ -26,6 +29,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
   String zodiac = "";
   String height = "";
   String weight = "";
+  String gender = "";
 
   void getDisplayNameFromCallBack(String text) {
     setState(() {
@@ -39,13 +43,13 @@ class _UserProfileBodyState extends State<UserProfileBody> {
     });
   }
 
-  void getHoroscopeFromCallBack(String text) {
+  void getHoroscopeSign(String text) {
     setState(() {
       horoscope = text;
     });
   }
 
-  void getZodiacFromCallBack(String text) {
+  void getZodiacSign(String text) {
     setState(() {
       zodiac = text;
     });
@@ -54,6 +58,9 @@ class _UserProfileBodyState extends State<UserProfileBody> {
   void getHeightFromCallBack(String text) {
     setState(() {
       height = text;
+      if (height.isNotEmpty) {
+        "${height}cm";
+      }
     });
   }
 
@@ -77,9 +84,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
             const Center(
               child: CircularProgressIndicator(),
             );
-
             break;
-
           case Status.success:
             profileResponse = state.response;
             if (profileResponse != null) {
@@ -154,22 +159,22 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                 label: 'Gender:',
                 hint: 'Select Gender',
                 context: context,
+                returnChangeValue: (changeValue) {
+                  logger.e(changeValue);
+                  setState(() {
+                    gender = changeValue;
+                  });
+                },
               ),
-              AppTextField(
+              AppDateTextField(
                 label: 'Birthday:',
                 hint: 'DD MM YYYY',
                 callBackController: getBirthdayFromCallBack,
+                horoscopeSign: getHoroscopeSign,
+                zodiacSign: getZodiacSign,
               ),
-              AppTextField(
-                label: 'Horoscope:',
-                hint: '--',
-                callBackController: getHoroscopeFromCallBack,
-              ),
-              AppTextField(
-                label: 'Zodiac:',
-                hint: '--',
-                callBackController: getZodiacFromCallBack,
-              ),
+              AppSign(label: "Horoscope", text: horoscope),
+              AppSign(label: "Zodiac", text: zodiac),
               AppTextField(
                 label: 'Height:',
                 hint: 'Add height',

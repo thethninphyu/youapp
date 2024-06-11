@@ -17,6 +17,12 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,6 +49,7 @@ class _AppTextFieldState extends State<AppTextField> {
               onChanged: (value) {
                 widget.callBackController(value);
               },
+              style: const TextStyle(color: YouAppColor.whiteColor),
               decoration: InputDecoration(
                 hintText: widget.hint,
                 isDense: true,
