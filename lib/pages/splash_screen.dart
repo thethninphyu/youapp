@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/util/app_color.dart';
-import 'package:youapp/util/app_logger.dart';
+
 import 'package:youapp/util/app_router.dart';
 
 class SplashScreen extends StatefulWidget {

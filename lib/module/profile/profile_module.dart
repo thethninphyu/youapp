@@ -3,6 +3,7 @@ import 'package:youapp/profile/about_card.dart';
 import 'package:youapp/profile/interested.dart';
 import 'package:youapp/profile/user_profile.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/widgets/update_interest.dart';
 
 class ProfileModule extends Module {
   @override
@@ -13,5 +14,7 @@ class ProfileModule extends Module {
             child: (context, args) => const AboutCard()),
         ChildRoute(ProfileRoutes.interest,
             child: (context, args) => const CustomContainer()),
+        ChildRoute(ProfileRoutes.updateInterest,
+            child: (context, args) =>  UpdateInterestWidget()),
       ];
 }
