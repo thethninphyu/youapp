@@ -5,8 +5,10 @@ import 'package:youapp/enum/status.dart';
 import 'package:youapp/login/login_bloc.dart';
 import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/module/auth/auth_module.dart';
+import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/validator.dart';
@@ -178,11 +180,13 @@ class LoginWidgetState extends State<LoginWidget> {
               const SizedBox(height: 24),
               YouAppButton(
                 onPressed: () {
-                  context.read<LoginBloc>().add(LoginRequestEvent(
-                      loginRequestModel: AuthRequestModel(
-                          username: _nameController.text.toString(),
-                          password: _passwordController.text.toString(),
-                          email: _emailController.text.toString())));
+                  AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+                      isReplaceAll: true);
+                  // context.read<LoginBloc>().add(LoginRequestEvent(
+                  //     loginRequestModel: AuthRequestModel(
+                  //         username: _nameController.text.toString(),
+                  //         password: _passwordController.text.toString(),
+                  //         email: _emailController.text.toString())));
                 },
                 child: const Text(
                   "Login",
