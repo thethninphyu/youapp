@@ -18,4 +18,5 @@ class YouAppColor {
   static const Color gardientThree = Color(0xFFAADAFF);
   static const Color imageBackgroundColor = Color(0xFF162329);
   static const Color cardBackgroundColor = Color(0xFF0E191F);
+  static const Color greyColor = Color(0xFFd9d9d9);
 }
