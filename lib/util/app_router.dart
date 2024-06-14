@@ -30,7 +30,7 @@ class AppRouter {
     String routes, {
     Object? args,
     bool? isReplace,
-    bool? isReplaceAll,
+    bool? isReplaceAll, List<String>? interests,
   }) {
     String tempRoute = "";
 

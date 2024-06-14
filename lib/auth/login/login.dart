@@ -100,6 +100,7 @@ class LoginWidgetState extends State<LoginWidget> {
 
         case Status.success:
           loginResponse = state.response;
+         
 
           break;
         case Status.failed:

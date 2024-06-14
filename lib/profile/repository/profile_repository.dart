@@ -1,0 +1,32 @@
+import 'package:youapp/services/baseapiservices.dart';
+import 'package:youapp/services/baseurl.dart';
+import 'package:youapp/services/networkapiservices.dart';
+import 'package:youapp/util/app_logger.dart';
+
+class ProfileRepository {
+  BaseApiServices apiServices = NetworkApiService();
+
+  Future<dynamic> createProfile(dynamic data) async {
+    try {
+      dynamic response = await apiServices.postApiResponse(
+          AppBaseUrls.createProfileEndPoint, data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> getProfile() async {
+    try {
+      logger.d("Route for rofile is ${AppBaseUrls.getProfileEndPoint}");
+      dynamic response =
+          await apiServices.getResponse(url: AppBaseUrls.getProfileEndPoint);
+
+      logger.d("Prof repository rp is $response");
+      return response;
+    } catch (e) {
+      logger.e("Error in repository $e");
+      rethrow;
+    }
+  }
+}

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youapp/enum/status.dart';
 import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/profile/bloc/profile_bloc.dart';
+import 'package:youapp/profile/response/profile_response.dart';
 import 'package:youapp/profile/user_profile_body.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
@@ -15,6 +19,15 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   bool show = false;
+  ProfileResponse? profileResponse;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProfileBloc>(context).add(GetUserProfileEvent());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,29 +37,59 @@ class _UserProfileState extends State<UserProfile> {
         backgroundColor: Colors.black,
         elevation: 0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                InkWell(
-                    onTap: () {},
-                    child: Image.asset(
-                      "assets/images/back.png",
-                      color: Colors.white,
-                      width: 7,
-                      height: 14,
-                    )),
-                const Text(
-                  "Back",
-                  style: TextStyle(color: YouAppColor.whiteColor, fontSize: 14),
-                )
-              ],
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset(
+                "assets/images/back.png",
+                color: Colors.white,
+                width: 7,
+                height: 16,
+              ),
             ),
-            const Align(
-              alignment: Alignment.center,
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0),
               child: Text(
-                '@johndoe123',
-                style: TextStyle(color: Colors.white),
+                "Back",
+                style: TextStyle(
+                  color: YouAppColor.whiteColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Expanded(
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (BuildContext context, state) {
+                  switch (state.status) {
+                    case Status.loading:
+                      const Center(child: CircularProgressIndicator());
+
+                    case Status.failed:
+                      const Center(
+                        child: Text('Failed'),
+                      );
+
+                    case Status.success:
+                      profileResponse = state.response;
+                      return Center(
+                        child: Text(
+                          profileResponse?.userData.username ?? '',
+                          style: const TextStyle(
+                            color: YouAppColor.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      );
+
+                    default:
+                  }
+
+                  return Container();
+                },
               ),
             ),
           ],
@@ -57,21 +100,20 @@ class _UserProfileState extends State<UserProfile> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Profile Header
               Container(
                 height: 200,
                 decoration: BoxDecoration(
                   color: YouAppColor.cardBackgroundColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Stack(
+                child: Stack(
                   children: [
                     Positioned(
                       left: 16,
                       bottom: 16,
                       child: Text(
-                        '@johndoe123,',
-                        style: TextStyle(
+                        profileResponse?.userData.username ?? '',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -82,13 +124,8 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               const SizedBox(height: 20),
-              // About Section
-              !show
-                  ? buildInfoCard(
-                      AppString.about, AppString.profileAboutDescription)
-                  : const UserProfileBody(),
+              createProfile(),
               const SizedBox(height: 20),
-              // Interests Section
               buildInfoCard(AppString.interest, AppString.interest),
             ],
           ),
@@ -114,9 +151,10 @@ class _UserProfileState extends State<UserProfile> {
                 Text(
                   title,
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -143,33 +181,39 @@ class _UserProfileState extends State<UserProfile> {
       ),
     );
   }
-}
 
-Widget buildTextField(String label, String placeholder) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
-        ),
-        const SizedBox(height: 5),
-        TextField(
-          decoration: InputDecoration(
-            hintText: placeholder,
-            hintStyle: const TextStyle(color: Colors.grey),
-            filled: true,
-            fillColor: Colors.grey[800],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
+  Widget createProfile() {
+    return !show
+        ? buildInfoCard(AppString.about, AppString.profileAboutDescription)
+        : const UserProfileBody();
+  }
+
+  Widget buildTextField(String label, String placeholder) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
           ),
-          style: const TextStyle(color: Colors.white),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: 5),
+          TextField(
+            decoration: InputDecoration(
+              hintText: placeholder,
+              hintStyle: const TextStyle(color: Colors.grey),
+              filled: true,
+              fillColor: Colors.grey[800],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
 }
