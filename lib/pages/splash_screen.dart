@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:youapp/module/auth/auth_module.dart';
+import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
+import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/services/share_preference.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_logger.dart';
 
 import 'package:youapp/util/app_router.dart';
 
@@ -12,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  //final AppSharePreference user = AppSharePreference();
+  final SharePreferenceData user = SharePreferenceData();
   String? userId;
 
   @override
@@ -22,7 +26,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getDataFromSharedPreference() async {
-    AppRouter.changeRoute<AuthModule>(AuthRoutes.login, isReplaceAll: true);
+    final token = await user.getToken();
+    if (token != null) {
+      logger.d("Have token $token");
+      AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+          isReplaceAll: true);
+    } else {
+      logger.d("Have  not token");
+      AppRouter.changeRoute<AuthModule>(AuthRoutes.login, isReplaceAll: true);
+    }
   }
 
   @override

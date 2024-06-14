@@ -13,8 +13,8 @@ class ProfileModule extends Module {
         ChildRoute(ProfileRoutes.about,
             child: (context, args) => const AboutCard()),
         ChildRoute(ProfileRoutes.interest,
-            child: (context, args) => const CustomContainer()),
+            child: (context, args) => const InterestScreen()),
         ChildRoute(ProfileRoutes.updateInterest,
-            child: (context, args) =>  UpdateInterestWidget()),
+            child: (context, args) => const UpdateInterestWidget()),
       ];
 }
