@@ -100,7 +100,6 @@ class _UserProfileState extends State<UserProfile> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Profile Header
               Container(
                 height: 200,
                 decoration: BoxDecoration(

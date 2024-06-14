@@ -28,14 +28,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final response = await repository.loginApi(event.loginRequestModel);
         final loginResponse = LoginResponse.fromJson(response);
 
+        if (loginResponse.access_token != null &&
+            loginResponse.access_token!.isNotEmpty) {
+          sharePreferenceData.setToken(loginResponse.access_token!);
+        }
+
         EasyLoading.showSuccess(loginResponse.message);
         emit(state.copyWith(
           addStatus: Status.success,
           response: loginResponse,
         ));
-
-        sharePreferenceData.setToken(loginResponse.access_token!);
-
         AppRouter.changeRoute<ProfileModule>(
           ProfileRoutes.profile,
           isReplaceAll: true,
