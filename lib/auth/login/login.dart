@@ -180,13 +180,13 @@ class LoginWidgetState extends State<LoginWidget> {
               const SizedBox(height: 24),
               YouAppButton(
                 onPressed: () {
-                  AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
-                      isReplaceAll: true);
-                  // context.read<LoginBloc>().add(LoginRequestEvent(
-                  //     loginRequestModel: AuthRequestModel(
-                  //         username: _nameController.text.toString(),
-                  //         password: _passwordController.text.toString(),
-                  //         email: _emailController.text.toString())));
+                  // AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+                  //     isReplaceAll: true);
+                  context.read<LoginBloc>().add(LoginRequestEvent(
+                      loginRequestModel: AuthRequestModel(
+                          username: _nameController.text.toString(),
+                          password: _passwordController.text.toString(),
+                          email: _emailController.text.toString())));
                 },
                 child: const Text(
                   "Login",

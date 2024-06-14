@@ -7,3 +7,5 @@ class ProfileCreateEvent extends ProfileEvent {
   final ProfileRequest profileRequest;
   ProfileCreateEvent({required this.profileRequest});
 }
+
+class GetUserProfileEvent extends ProfileEvent {}

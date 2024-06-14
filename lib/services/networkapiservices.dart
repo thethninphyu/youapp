@@ -27,6 +27,8 @@ class NetworkApiService extends BaseApiServices {
 
     try {
       final response = await dio.get(url).timeout(const Duration(seconds: 15));
+
+      logger.d("Reach here and response for get ${response.data}");
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -38,7 +40,6 @@ class NetworkApiService extends BaseApiServices {
   Future postApiResponse(String url, data) async {
     dynamic responseJson;
 
-    logger.d("Reach here");
     try {
       final response =
           await dio.post(url, data: data).timeout(const Duration(seconds: 15));
@@ -61,8 +62,10 @@ class NetworkApiService extends BaseApiServices {
 
 dynamic returnResponse(Response response) {
   switch (response.statusCode) {
+    case 200:
     case 201:
       return response.data;
+
     case 400:
       throw BadRequestException(response.statusMessage.toString());
 

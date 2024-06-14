@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharePreferenceData {
-  String accessToken = "api_authorization";
+  static const String accessToken = "token";
 
   Future<void> setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -11,11 +11,9 @@ class SharePreferenceData {
     return;
   }
 
-  Future<void> getToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.getString(token) ?? "";
-
-    return;
+    return prefs.getString(accessToken) ?? "";
   }
 }

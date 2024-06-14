@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:youapp/enum/status.dart';
-import 'package:youapp/profile/repository/ProfileRepository.dart';
+import 'package:youapp/profile/repository/profile_repository.dart';
 import 'package:youapp/profile/request/profile_request.dart';
 import 'package:youapp/profile/response/profile_response.dart';
-import 'package:youapp/util/app_logger.dart';
+
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -16,7 +16,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(const ProfileState(status: Status.initial)) {
     on<ProfileCreateEvent>((event, emit) async {
       try {
-        logger.e("Enter Here${event.profileRequest.toJson()}");
+        // logger.e("Enter Here${event.profileRequest.toJson()}");
         emit(state.copyWith(status: Status.loading));
         final response = await repository.createProfile(event.profileRequest);
 
@@ -25,6 +25,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         EasyLoading.showSuccess(loginResponse.message);
         emit(state.copyWith(status: Status.success, response: loginResponse));
       } catch (e) {
+        emit(state.copyWith(status: Status.failed));
+      }
+    });
+
+    on<GetUserProfileEvent>((event, emit) async {
+      try {
+        emit(state.copyWith(status: Status.loading));
+        final response = await repository.getProfile();
+      
+        final profileResponse = ProfileResponse.fromJson(response);
+
+     
+        EasyLoading.showSuccess(profileResponse.message);
+        emit(state.copyWith(status: Status.success, response: profileResponse));
+      } catch (e) {
+    
         emit(state.copyWith(status: Status.failed));
       }
     });

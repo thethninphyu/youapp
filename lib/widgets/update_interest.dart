@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:textfield_tags/textfield_tags.dart';
+import 'package:youapp/module/profile/profile_module.dart';
+
+import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/custom_app_bar.dart';
 import 'package:youapp/widgets/background.dart';
 
@@ -37,7 +40,11 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
         onPressed: () {},
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              AppRouter.changeRoute<ProfileModule>(
+                ProfileRoutes.interest, interests: _stringTagController.getTags,isReplace: true
+              );
+            },
             child: const Text(
               'Save',
               style: TextStyle(color: YouAppColor.goldColor),
@@ -51,7 +58,7 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(
+              SizedBox(
                 height: MediaQuery.of(context).size.height / 4,
               ),
               const SizedBox(
