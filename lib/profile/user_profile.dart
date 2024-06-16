@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/module/profile/profile_module.dart';
@@ -142,45 +143,82 @@ class _UserProfileState extends State<UserProfile> {
         color: YouAppColor.cardBackgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  description,
-                  style: const TextStyle(color: Colors.grey, fontSize: 14),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              IconButton(
+                onPressed: () {
+                  if (title == "Interest") {
+                    AppRouter.changeRoute<ProfileModule>(
+                        ProfileRoutes.interest);
+                  } else {
+                    setState(() {
+                      show = !show;
+                    });
+                  }
+                },
+                icon: const Icon(Icons.edit, color: Colors.grey),
+              ),
+            ],
           ),
           const SizedBox(width: 10),
-          IconButton(
-            onPressed: () {
-              if (title == "Interest") {
-                AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest);
-              } else {
-                setState(() {
-                  show = !show;
-                });
-              }
-            },
-            icon: const Icon(Icons.edit, color: Colors.grey),
-          ),
+          if (profileResponse?.userData.birthday != null && profileResponse?.userData.height != 0 && profileResponse?.userData.weight != 0) ...[
+            buildUserData(profileResponse!.userData)
+          ] else
+            Text(
+              description,
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
+            ),
         ],
       ),
     );
+  }
+
+  Widget buildUserData(UserData userData) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildInfoRow('Birthday', userData.birthday),
+        buildInfoRow('Horoscope', userData.horoscope),
+        buildInfoRow('Height', '${userData.height} cm'),
+        buildInfoRow('Weight', '${userData.weight} kg'),
+      ],
+    );
+  }
+
+  Widget buildInfoRow(String label, String value) {
+    return value.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Row(
+              children: [
+                Text(
+                  '$label: ',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  value,
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ],
+            ),
+          )
+        : Container();
   }
 
   getImage(File? image) {
