@@ -45,7 +45,7 @@ class _UserProfileState extends State<UserProfile> {
             return Scaffold(
               backgroundColor: Colors.black,
               appBar: AppBar(
-                backgroundColor:   Colors.black,
+                backgroundColor: Colors.black,
                 elevation: 0,
                 title: Row(
                   children: [
