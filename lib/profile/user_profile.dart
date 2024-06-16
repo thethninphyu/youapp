@@ -35,50 +35,48 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                "assets/images/back.png",
-                color: Colors.white,
-                width: 7,
-                height: 16,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Text(
-                "Back",
-                style: TextStyle(
-                  color: YouAppColor.whiteColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<ProfileBloc, ProfileState>(
-                builder: (BuildContext context, state) {
-                  switch (state.status) {
-                    case Status.loading:
-                      const Center(child: CircularProgressIndicator());
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case Status.loading:
+            const Center(child: CircularProgressIndicator());
 
-                    case Status.failed:
-                      const Center(
-                        child: Text('Failed'),
-                      );
+          case Status.failed:
+            const Center(child: Text('Failed'));
 
-                    case Status.success:
-                      profileResponse = state.response;
-                      return Center(
+          case Status.success:
+            profileResponse = state.response;
+            return Scaffold(
+              backgroundColor: Colors.black,
+              appBar: AppBar(
+                backgroundColor: Colors.black,
+                elevation: 0,
+                title: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Image.asset(
+                        "assets/images/back.png",
+                        color: Colors.white,
+                        width: 7,
+                        height: 16,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "Back",
+                        style: TextStyle(
+                          color: YouAppColor.whiteColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
                         child: Text(
                           profileResponse?.userData.username ?? '',
                           style: const TextStyle(
@@ -87,60 +85,53 @@ class _UserProfileState extends State<UserProfile> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      );
-
-                    default:
-                  }
-
-                  return Container();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  color: YouAppColor.cardBackgroundColor,
-                  borderRadius: BorderRadius.circular(8),
-                  image: image != null
-                      ? DecorationImage(
-                          image: FileImage(image!),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 16,
-                      bottom: 16,
-                      child: Text(
-                        profileResponse?.userData.username ?? '',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
-              createProfile(),
-              const SizedBox(height: 20),
-              buildInfoCard(AppString.interest, AppString.interest),
-            ],
-          ),
-        ),
-      ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: YouAppColor.cardBackgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 16,
+                              bottom: 16,
+                              child: Text(
+                                profileResponse?.userData.username ?? '',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      createProfile(),
+                      const SizedBox(height: 20),
+                      buildInfoCard(AppString.interest, AppString.interest),
+                    ],
+                  ),
+                ),
+              ),
+            );
+
+          default:
+        }
+        return Container();
+      },
     );
   }
 
