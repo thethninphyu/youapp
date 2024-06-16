@@ -107,9 +107,9 @@ class _UserProfileBodyState extends State<UserProfileBody> {
             break;
           case Status.success:
             profileResponse = state.response;
-            if (profileResponse != null) {
-              AppRouter.changeRoute<ProfileModule>(ProfileRoutes.about);
-            }
+            // if (profileResponse != null) {
+            //   AppRouter.changeRoute<ProfileModule>(ProfileRoutes.about);
+            // }
             break;
           case Status.failed:
             const Center(
@@ -130,10 +130,14 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                   ),
                   TextButton(
                     onPressed: () {
+                      logger.e("BeforeSave1$displayName");
+                      logger.e("BeforeSave2$birthday");
+                      logger.e("BeforeSave3$height");
+                      logger.e("BeforeSave4$weight");
                       context.read<ProfileBloc>().add(ProfileCreateEvent(
                           profileRequest: ProfileRequest(
                               name: displayName,
-                              birthday: "20-05-1997",
+                              birthday: birthday,
                               height: height,
                               weight: weight,
                               interests: [])));
