@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
@@ -15,7 +18,8 @@ import 'package:youapp/util/app_sign.dart';
 import 'package:youapp/util/app_textfield.dart';
 
 class UserProfileBody extends StatefulWidget {
-  const UserProfileBody({super.key});
+  final Function(File? image) callBackImage;
+  const UserProfileBody({super.key, required this.callBackImage});
 
   @override
   State<UserProfileBody> createState() => _UserProfileBodyState();
@@ -30,6 +34,10 @@ class _UserProfileBodyState extends State<UserProfileBody> {
   String height = "";
   String weight = "";
   String gender = "";
+
+  File? _image;
+
+  final ImagePicker _picker = ImagePicker();
 
   void getDisplayNameFromCallBack(String text) {
     setState(() {
@@ -68,6 +76,18 @@ class _UserProfileBodyState extends State<UserProfileBody> {
     setState(() {
       weight = text;
     });
+  }
+
+  Future<void> pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+        logger.e("Image$_image");
+        widget.callBackImage(_image);
+      });
+    }
   }
 
   @override
@@ -128,17 +148,20 @@ class _UserProfileBodyState extends State<UserProfileBody> {
               ),
               Row(
                 children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      size: 40,
-                      color: YouAppColor.goldColor,
+                  InkWell(
+                    onTap: pickImage,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        size: 40,
+                        color: YouAppColor.goldColor,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),

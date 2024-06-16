@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youapp/enum/status.dart';
@@ -7,6 +9,7 @@ import 'package:youapp/profile/response/profile_response.dart';
 import 'package:youapp/profile/user_profile_body.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_logger.dart';
 import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/app_string.dart';
 
@@ -20,6 +23,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   bool show = false;
   ProfileResponse? profileResponse;
+  File? image;
 
   @override
   void initState() {
@@ -179,10 +183,19 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
+  getImage(File? image) {
+    setState(() {
+      logger.e("Image$image");
+      this.image = image;
+    });
+  }
+
   Widget createProfile() {
     return !show
         ? buildInfoCard(AppString.about, AppString.profileAboutDescription)
-        : const UserProfileBody();
+        : UserProfileBody(
+            callBackImage: getImage,
+          );
   }
 
   Widget buildTextField(String label, String placeholder) {
