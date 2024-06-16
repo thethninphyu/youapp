@@ -4,9 +4,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:youapp/auth_repository/auth_repo.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/model/authrequest_model.dart';
-import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/response/authresponse.dart';
-import 'package:youapp/routes/profile/profile_routes.dart';
+import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/util/app_router.dart';
 
 part 'auth_event.dart';
@@ -30,8 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         emit(state.copyWith(addStatus: Status.success, response: authResponse));
 
-        AppRouter.changeRoute<ProfileModule>(
-          ProfileRoutes.profile,
+        AppRouter.changeRoute<AuthModule>(
+          AuthRoutes.login,
           isReplaceAll: true,
         );
       } catch (e) {

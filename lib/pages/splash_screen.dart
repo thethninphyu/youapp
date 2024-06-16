@@ -27,13 +27,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getDataFromSharedPreference() async {
     final token = await user.getToken();
-    if (token != null) {
-      logger.d("Have token $token");
-      AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
-          isReplaceAll: true);
+    logger.d("Token is $token");
+
+    if (token != null && token.isNotEmpty) {
+      AppRouter.changeRoute<ProfileModule>(
+        ProfileRoutes.profile,
+        isReplaceAll: true,
+      );
     } else {
-      logger.d("Have  not token");
-      AppRouter.changeRoute<AuthModule>(AuthRoutes.login, isReplaceAll: true);
+      AppRouter.changeRoute<AuthModule>(
+        AuthRoutes.login,
+        isReplaceAll: true,
+      );
     }
   }
 
