@@ -16,6 +16,7 @@ class YouAppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
         decoration: BoxDecoration(
@@ -34,6 +35,7 @@ class YouAppButton extends StatelessWidget {
             stops: const [0.2488, 0.7849],
           ),
           borderRadius: BorderRadius.circular(20),
+        
         ),
         child: Center(child: child),
       ),

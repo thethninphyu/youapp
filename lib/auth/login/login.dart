@@ -185,7 +185,7 @@ class LoginWidgetState extends State<LoginWidget> {
                           email: _emailController.text.toString())));
                 },
                 isEnabled: isButtonEnabled,
-                child:  Text(
+                child:Text(
                   "Login",
                   style: TextStyle(color: isButtonEnabled ? YouAppColor.whiteColor : YouAppColor.disableTextColor, fontSize: 16),
                 ),
