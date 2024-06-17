@@ -23,13 +23,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(state.copyWith(status: Status.loading));
         final response = await repository.createProfile(event.profileRequest);
 
-        final loginResponse = ProfileResponse.fromJson(response);
-
-        EasyLoading.showSuccess(loginResponse.message);
-        emit(state.copyWith(status: Status.success, response: loginResponse));
-
-        AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
-            isReplace: false);
+        if (response != null) {
+          final profileResponse = ProfileResponse.fromJson(response);
+          EasyLoading.showSuccess(profileResponse.message);
+          AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+              isReplace: false);
+          emit(state.copyWith(
+              status: Status.success, response: profileResponse));
+        } else {
+          EasyLoading.showSuccess("Creating Profile Fail");
+          emit(state.copyWith(status: Status.failed));
+        }
       } catch (e) {
         logger.e("Create Profile error is $e");
         emit(state.copyWith(status: Status.failed));
@@ -53,15 +57,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     on<UpdateProfileEvent>((event, emit) async {
       try {
-        emit(state.copyWith(status: Status.initial));
+        emit(state.copyWith(status: Status.update));
         final response =
             await repository.updateProfile(event.updateProfileRequest.toJson());
+        logger.e(response);
 
-        final updateProfileResponse = ProfileResponse.fromJson(response);
-        EasyLoading.showSuccess(updateProfileResponse.message);
-
-        emit(state.copyWith(
-            status: Status.success, response: updateProfileResponse));
+        if (response != null) {
+          final updateProfileResponse = ProfileResponse.fromJson(response);
+          EasyLoading.showSuccess(updateProfileResponse.message);
+          AppRouter.changeRoute<ProfileModule>(ProfileRoutes.profile,
+              isReplace: false);
+          emit(state.copyWith(
+              status: Status.success, response: updateProfileResponse));
+        } else {
+          EasyLoading.showError("Profile Update Fail");
+          emit(state.copyWith(status: Status.failed));
+        }
       } catch (e) {
         emit(state.copyWith(status: Status.failed));
       }
