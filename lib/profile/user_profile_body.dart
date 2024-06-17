@@ -4,16 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youapp/enum/status.dart';
-import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
 import 'package:youapp/profile/request/profile_request.dart';
 import 'package:youapp/profile/response/profile_response.dart';
-import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_date_field.dart';
 import 'package:youapp/util/app_drop_down_field.dart';
 import 'package:youapp/util/app_color.dart';
 import 'package:youapp/util/app_logger.dart';
-import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/app_sign.dart';
 import 'package:youapp/util/app_textfield.dart';
 
@@ -107,9 +104,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
             break;
           case Status.success:
             profileResponse = state.response;
-            // if (profileResponse != null) {
-            //   AppRouter.changeRoute<ProfileModule>(ProfileRoutes.about);
-            // }
+
             break;
           case Status.failed:
             const Center(

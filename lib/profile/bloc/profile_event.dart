@@ -9,3 +9,8 @@ class ProfileCreateEvent extends ProfileEvent {
 }
 
 class GetUserProfileEvent extends ProfileEvent {}
+
+class UpdateProfileEvent extends ProfileEvent {
+  final ProfileRequest updateProfileRequest;
+  UpdateProfileEvent({required this.updateProfileRequest});
+}

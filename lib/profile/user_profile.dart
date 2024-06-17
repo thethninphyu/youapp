@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
@@ -34,6 +34,12 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  void _handleUpdateProfile() {
+    setState(() {
+      show = !show;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -51,6 +57,25 @@ class _UserProfileState extends State<UserProfile> {
               backgroundColor: Colors.black,
               appBar: AppBar(
                 backgroundColor: Colors.black,
+                actions: [
+                  PopupMenuButton<int>(
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        const PopupMenuItem<int>(
+                          value: 0,
+                          child: Text(AppString.updateProfile),
+                        ),
+                      ];
+                    },
+                    icon: const FaIcon(
+                      FontAwesomeIcons.ellipsis,
+                      color: Colors.white,
+                    ),
+                    onSelected: (int value) {
+                      _handleUpdateProfile();
+                    },
+                  ),
+                ],
                 elevation: 0,
                 title: Row(
                   children: [
@@ -106,9 +131,21 @@ class _UserProfileState extends State<UserProfile> {
                           children: [
                             Positioned(
                               left: 16,
-                              bottom: 16,
+                              bottom: 45,
                               child: Text(
                                 profileResponse?.userData.username ?? '',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 16,
+                              bottom: 20,
+                              child: Text(
+                                profileResponse?.userData.email ?? '',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -122,7 +159,8 @@ class _UserProfileState extends State<UserProfile> {
                       const SizedBox(height: 20),
                       createProfile(),
                       const SizedBox(height: 20),
-                      buildInfoCard(AppString.interest, AppString.interest),
+                      buildInfoCard(AppString.interest,
+                          AppString.profileInterestDescription),
                     ],
                   ),
                 ),
@@ -173,7 +211,9 @@ class _UserProfileState extends State<UserProfile> {
             ],
           ),
           const SizedBox(width: 10),
-          if (profileResponse?.userData.birthday != null && profileResponse?.userData.height != 0 && profileResponse?.userData.weight != 0) ...[
+          if (profileResponse?.userData.birthday != null &&
+              profileResponse?.userData.height != 0 &&
+              profileResponse?.userData.weight != 0) ...[
             buildUserData(profileResponse!.userData)
           ] else
             Text(

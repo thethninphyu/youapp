@@ -18,14 +18,25 @@ class ProfileRepository {
 
   Future<dynamic> getProfile() async {
     try {
-      logger.d("Route for rofile is ${AppBaseUrls.getProfileEndPoint}");
+      //  logger.d("Route for rofile is ${AppBaseUrls.getProfileEndPoint}");
       dynamic response =
           await apiServices.getResponse(url: AppBaseUrls.getProfileEndPoint);
 
-      logger.d("Prof repository rp is $response");
+      //  logger.d("Prof repository rp is $response");
       return response;
     } catch (e) {
-      logger.e("Error in repository $e");
+      rethrow;
+    }
+  }
+
+  Future<dynamic> updateProfile(dynamic data) async {
+    try {
+      dynamic response = await apiServices.putApiResponse(
+          AppBaseUrls.updateProfileEndPoint, data);
+
+      return response;
+    } catch (e) {
+      logger.e("Error in Update Profile repository $e");
       rethrow;
     }
   }
