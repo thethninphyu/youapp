@@ -1,8 +1,8 @@
 class ProfileRequest {
   final String name;
   final String birthday;
-  final String height;
-  final String weight;
+  final int height;
+  final int weight;
   final List<String> interests;
 
   ProfileRequest(

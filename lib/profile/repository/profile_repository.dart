@@ -10,6 +10,7 @@ class ProfileRepository {
     try {
       dynamic response = await apiServices.postApiResponse(
           AppBaseUrls.createProfileEndPoint, data);
+      logger.e("Enter Here$response");
       return response;
     } catch (e) {
       rethrow;

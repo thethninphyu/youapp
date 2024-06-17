@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
@@ -28,8 +29,8 @@ class _UserProfileBodyState extends State<UserProfileBody> {
   String birthday = "";
   String horoscope = "";
   String zodiac = "";
-  String height = "";
-  String weight = "";
+  int height = 0;
+  int weight = 0;
   String gender = "";
 
   File? _image;
@@ -60,10 +61,10 @@ class _UserProfileBodyState extends State<UserProfileBody> {
     });
   }
 
-  void getHeightFromCallBack(String text) {
+  getHeightFromCallBack(String text) {
     setState(() {
-      height = text;
-      if (height.isNotEmpty) {
+      height = int.parse(text);
+      if (height != 0) {
         "${height}cm";
       }
     });
@@ -71,7 +72,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
 
   void getWeightFromCallBack(String text) {
     setState(() {
-      weight = text;
+      weight = int.parse(text);
     });
   }
 
@@ -129,13 +130,20 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                       logger.e("BeforeSave2$birthday");
                       logger.e("BeforeSave3$height");
                       logger.e("BeforeSave4$weight");
-                      context.read<ProfileBloc>().add(ProfileCreateEvent(
-                          profileRequest: ProfileRequest(
-                              name: displayName,
-                              birthday: birthday,
-                              height: height,
-                              weight: weight,
-                              interests: [])));
+                      if (displayName.isEmpty &&
+                          birthday.isEmpty &&
+                          height != 0 &&
+                          weight != 0) {
+                        EasyLoading.showInfo("You have to fill data!");
+                      } else {
+                        context.read<ProfileBloc>().add(ProfileCreateEvent(
+                            profileRequest: ProfileRequest(
+                                name: displayName,
+                                birthday: birthday,
+                                height: height,
+                                weight: weight,
+                                interests: [])));
+                      }
                     },
                     child: const Text(
                       'Save & Update',
@@ -203,9 +211,9 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                 callBackController: getHeightFromCallBack,
               ),
               AppTextField(
+                callBackController: getWeightFromCallBack,
                 label: 'Weight:',
                 hint: 'Add weight',
-                callBackController: getWeightFromCallBack,
               ),
             ],
           ),
