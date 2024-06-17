@@ -19,7 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(const ProfileState(status: Status.initial)) {
     on<ProfileCreateEvent>((event, emit) async {
       try {
-        // logger.e("Enter Here${event.profileRequest.toJson()}");
+        logger.e("Enter Here${event.profileRequest.toJson()}");
         emit(state.copyWith(status: Status.loading));
         final response = await repository.createProfile(event.profileRequest);
 

@@ -9,6 +9,7 @@ import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/services/share_preference.dart';
+import 'package:youapp/util/app_logger.dart';
 import 'package:youapp/util/app_router.dart';
 
 part 'login_event.dart';
@@ -25,6 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         emit(state.copyWith(addStatus: Status.loading));
 
+        logger.e("REQUESTMODEL${event.loginRequestModel.toJson()}");
         final response = await repository.loginApi(event.loginRequestModel);
         final loginResponse = LoginResponse.fromJson(response);
 

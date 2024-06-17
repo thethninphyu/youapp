@@ -100,7 +100,6 @@ class LoginWidgetState extends State<LoginWidget> {
 
         case Status.success:
           loginResponse = state.response;
-         
 
           break;
         case Status.failed:
@@ -140,7 +139,7 @@ class LoginWidgetState extends State<LoginWidget> {
                 style: const TextStyle(color: YouAppColor.whiteColor),
                 decoration: _getInputDec("Name"),
                 onFieldSubmitted: (_) =>
-                    _fieldFocusChange(context, _nameFocus, _passwordFocus),
+                    _fieldFocusChange(context, _nameFocus, _emailFocus),
               ),
               const SizedBox(height: 8),
               const SizedBox(height: 8),
