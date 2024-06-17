@@ -26,6 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         emit(state.copyWith(addStatus: Status.loading));
 
+        logger.e("REQUESTMODEL${event.loginRequestModel.toJson()}");
         final response = await repository.loginApi(event.loginRequestModel);
         final loginResponse = LoginResponse.fromJson(response);
 

@@ -81,13 +81,6 @@ class RegisterWidgetState extends State<RegisterWidget> {
     );
   }
 
-  Widget _getLogo() {
-    return Image.asset(
-      'assets/images/ptbgo_black_logo.png',
-      height: 40,
-    );
-  }
-
   Widget _getForm() {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
@@ -202,21 +195,20 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 const SizedBox(height: 24),
                 YouAppButton(
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(RegisterEvent(
-                              authRequestModel: AuthRequestModel(
-                            username: _nameController.text.toString(),
-                            email: _emailController.text.toString(),
-                            password: _passwordController.text.toString(),
-                          )));
-                    }
-                  }
-                ),
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(RegisterEvent(
+                                authRequestModel: AuthRequestModel(
+                              username: _nameController.text.toString(),
+                              email: _emailController.text.toString(),
+                              password: _passwordController.text.toString(),
+                            )));
+                      }
+                    }),
                 const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerRight,
