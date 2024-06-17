@@ -46,6 +46,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         EasyLoading.showSuccess(profileResponse.message);
         emit(state.copyWith(status: Status.success, response: profileResponse));
       } catch (e) {
+        logger.e("Get profile error is $e");
         emit(state.copyWith(status: Status.failed));
       }
     });

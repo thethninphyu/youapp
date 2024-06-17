@@ -188,6 +188,7 @@ class _UserProfileState extends State<UserProfile> {
             children: [
               Text(
                 title,
+                
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

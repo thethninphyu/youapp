@@ -9,6 +9,7 @@ import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/services/share_preference.dart';
+import 'package:youapp/util/app_logger.dart';
 import 'package:youapp/util/app_router.dart';
 
 part 'login_event.dart';
@@ -28,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final response = await repository.loginApi(event.loginRequestModel);
         final loginResponse = LoginResponse.fromJson(response);
 
+        logger.d("Login RE is ${loginResponse.access_token}");
         if (loginResponse.access_token != null &&
             loginResponse.access_token!.isNotEmpty) {
           sharePreferenceData.setToken(loginResponse.access_token!);
@@ -43,6 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           isReplaceAll: true,
         );
       } catch (e) {
+        logger.e("Login Errror is $e");
         emit(state.copyWith(addStatus: Status.failed));
       }
     }));

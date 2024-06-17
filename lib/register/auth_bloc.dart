@@ -7,7 +7,9 @@ import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
+import 'package:youapp/util/app_logger.dart';
 import 'package:youapp/util/app_router.dart';
+import 'package:youapp/util/app_string.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -19,25 +21,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) {});
 
     on<RegisterEvent>((event, emit) async {
-      // logger.d("Request model is ${event.authRequestModel.toJson().values}");
       try {
         emit(state.copyWith(addStatus: Status.loading));
         final response =
             await repository.registerApi(event.authRequestModel.toJson());
 
         final authResponse = AuthResponse.fromJson(response);
-        EasyLoading.showSuccess(authResponse.message);
 
-        emit(state.copyWith(addStatus: Status.success, response: authResponse));
+        if (authResponse.message == AppString.registerSuccessMessage) {
+          AppRouter.changeRoute<AuthModule>(
+            AuthRoutes.login,
+            isReplaceAll: true,
+          );
 
-        AppRouter.changeRoute<AuthModule>(
-          AuthRoutes.login,
-          isReplaceAll: true,
-        );
+          logger.d("Register success ${authResponse.message}");
+
+          EasyLoading.showSuccess(authResponse.message);
+          emit(state.copyWith(
+              addStatus: Status.success, response: authResponse));
+        } else {
+          emit(state.copyWith(addStatus: Status.failed));
+        }
       } catch (e) {
         emit(state.copyWith(
           addStatus: Status.failed,
         ));
+        logger.e("Register Error is $e");
 
         EasyLoading.showError('Failed');
       } finally {
