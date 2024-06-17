@@ -30,15 +30,27 @@ class RegisterWidgetState extends State<RegisterWidget> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _hidePwd = true;
-  bool isButtonDisable = false;
+
   AuthResponse? responseData;
 
-  // final LoadingDialogController _loginDialogController =
-  //     LoadingDialogController();
-
+  bool isButtonEnabled = false;
   @override
   void initState() {
     super.initState();
+    _nameController.addListener(_updateButtonState);
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    _confirmPasswordController.addListener(_updateButtonState);
+  }
+
+  bool? _updateButtonState() {
+    setState(() {
+      isButtonEnabled = _emailController.text.isNotEmpty &&
+          _nameController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty &&
+          _confirmPasswordController.text.isNotEmpty;
+    });
+    return null;
   }
 
   @override
@@ -127,7 +139,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   focusNode: _emailFocus,
                   cursorColor: YouAppColor.whiteColor,
                   textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.emailAddress,
                   style: const TextStyle(color: YouAppColor.whiteColor),
                   validator: validateEmail,
                   decoration:
@@ -195,20 +207,26 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 const SizedBox(height: 24),
                 YouAppButton(
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        context.read<AuthBloc>().add(RegisterEvent(
-                                authRequestModel: AuthRequestModel(
-                              username: _nameController.text.toString(),
-                              email: _emailController.text.toString(),
-                              password: _passwordController.text.toString(),
-                            )));
-                      }
-                    }),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(RegisterEvent(
+                              authRequestModel: AuthRequestModel(
+                            username: _nameController.text.toString(),
+                            email: _emailController.text.toString(),
+                            password: _passwordController.text.toString(),
+                          )));
+                    }
+                  },
+                  isEnabled: isButtonEnabled,
+                  child: Text(
+                    "Register",
+                    style: TextStyle(
+                        color: isButtonEnabled
+                            ? YouAppColor.whiteColor
+                            : YouAppColor.disableTextColor,
+                        fontSize: 16),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerRight,

@@ -30,17 +30,17 @@ class LoginWidgetState extends State<LoginWidget> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool isEnableBtn = false;
+  bool isButtonEnabled = false;
   bool _hidePwd = true;
 
   LoginResponse? loginResponse;
 
-  // final LoadingDialogController _loginDialogController =
-  //     LoadingDialogController();
-
   @override
   void initState() {
     super.initState();
+    _nameController.addListener(_updateButtonState);
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
   }
 
   @override
@@ -184,9 +184,10 @@ class LoginWidgetState extends State<LoginWidget> {
                           password: _passwordController.text.toString(),
                           email: _emailController.text.toString())));
                 },
-                child: const Text(
+                isEnabled: isButtonEnabled,
+                child:  Text(
                   "Login",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextStyle(color: isButtonEnabled ? YouAppColor.whiteColor : YouAppColor.disableTextColor, fontSize: 16),
                 ),
               ),
               const SizedBox(height: 20),
@@ -248,5 +249,14 @@ class LoginWidgetState extends State<LoginWidget> {
         borderRadius: BorderRadius.all(Radius.circular(9.0)),
       ),
     );
+  }
+
+  bool? _updateButtonState() {
+    setState(() {
+      isButtonEnabled = _nameController.text.isNotEmpty &&
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+    return null;
   }
 }
