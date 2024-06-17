@@ -53,124 +53,167 @@ class _UserProfileState extends State<UserProfile> {
 
           case Status.success:
             profileResponse = state.response;
-            return Scaffold(
-              backgroundColor: Colors.black,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                actions: [
-                  PopupMenuButton<int>(
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        const PopupMenuItem<int>(
-                          value: 0,
-                          child: Text(AppString.updateProfile),
-                        ),
-                      ];
-                    },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.ellipsis,
-                      color: Colors.white,
-                    ),
-                    onSelected: (int value) {
-                      _handleUpdateProfile();
-                    },
+            buildUserProfileHome();
+
+          default:
+        }
+        return buildUserProfileHome();
+      },
+    );
+  }
+
+  buildUserProfileHome() {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        actions: [
+          PopupMenuButton<int>(
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Text(AppString.updateProfile),
+                ),
+              ];
+            },
+            icon: const FaIcon(
+              FontAwesomeIcons.ellipsis,
+              color: Colors.white,
+            ),
+            onSelected: (int value) {
+              _handleUpdateProfile();
+            },
+          ),
+        ],
+        elevation: 0,
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset(
+                "assets/images/back.png",
+                color: Colors.white,
+                width: 7,
+                height: 16,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Back",
+                style: TextStyle(
+                  color: YouAppColor.whiteColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  profileResponse?.userData.username ?? '',
+                  style: const TextStyle(
+                    color: YouAppColor.whiteColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-                elevation: 0,
-                title: Row(
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: YouAppColor.cardBackgroundColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Stack(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset(
-                        "assets/images/back.png",
-                        color: Colors.white,
-                        width: 7,
-                        height: 16,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
+                    Positioned(
+                      left: 16,
+                      bottom: 45,
                       child: Text(
-                        "Back",
-                        style: TextStyle(
-                          color: YouAppColor.whiteColor,
+                        profileResponse?.userData.username ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          profileResponse?.userData.username ?? '',
-                          style: const TextStyle(
-                            color: YouAppColor.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                    Positioned(
+                      left: 16,
+                      bottom: 20,
+                      child: Text(
+                        profileResponse?.userData.email ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: YouAppColor.cardBackgroundColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 16,
-                              bottom: 45,
-                              child: Text(
-                                profileResponse?.userData.username ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 16,
-                              bottom: 20,
-                              child: Text(
-                                profileResponse?.userData.email ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      createProfile(),
-                      const SizedBox(height: 20),
-                      buildInfoCard(AppString.interest,
-                          AppString.profileInterestDescription),
-                    ],
-                  ),
+              const SizedBox(height: 20),
+              createProfile(),
+              const SizedBox(height: 20),
+              buildInterest(
+                  AppString.interest, AppString.profileInterestDescription),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildInterest(String title, String description) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: YouAppColor.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            );
-
-          default:
-        }
-        return Container();
-      },
+              const SizedBox(height: 10),
+              IconButton(
+                onPressed: () {
+                  AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest);
+                },
+                icon: const Icon(Icons.edit, color: Colors.grey),
+              ),
+            ],
+          ),
+          const SizedBox(width: 10),
+          Text(
+            description,
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
+          ),
+        ],
+      ),
     );
   }
 
@@ -272,8 +315,7 @@ class _UserProfileState extends State<UserProfile> {
     return !show
         ? buildInfoCard(AppString.about, AppString.profileAboutDescription)
         : UserProfileBody(
-            callBackImage: getImage,
-          );
+            callBackImage: getImage, profileResponse: profileResponse);
   }
 
   Widget buildTextField(String label, String placeholder) {

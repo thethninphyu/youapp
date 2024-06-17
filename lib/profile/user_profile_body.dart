@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youapp/enum/status.dart';
+import 'package:youapp/extension/birth_extension.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
 import 'package:youapp/profile/request/profile_request.dart';
 import 'package:youapp/profile/response/profile_response.dart';
@@ -17,7 +18,9 @@ import 'package:youapp/util/app_textfield.dart';
 
 class UserProfileBody extends StatefulWidget {
   final Function(File? image) callBackImage;
-  const UserProfileBody({super.key, required this.callBackImage});
+  final ProfileResponse? profileResponse;
+  const UserProfileBody(
+      {super.key, required this.callBackImage, required this.profileResponse});
 
   @override
   State<UserProfileBody> createState() => _UserProfileBodyState();
@@ -90,6 +93,19 @@ class _UserProfileBodyState extends State<UserProfileBody> {
 
   @override
   void initState() {
+    displayName = widget.profileResponse?.userData.name ?? "";
+    birthday = widget.profileResponse?.userData.birthday ?? "";
+    if (birthday.isNotEmpty) {
+      horoscope = DateTime.parse(widget.profileResponse!.userData.birthday)
+          .getHoroscopeSign();
+      zodiac = DateTime.parse(widget.profileResponse!.userData.birthday)
+          .getZodiacSign();
+    } else {
+      horoscope = "";
+      zodiac = "";
+    }
+    height = widget.profileResponse?.userData.height ?? 0;
+    weight = widget.profileResponse?.userData.weight ?? 0;
     super.initState();
   }
 
@@ -105,6 +121,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
             break;
           case Status.success:
             profileResponse = state.response;
+            logger.e(profileResponse);
 
             break;
           case Status.failed:
@@ -126,23 +143,29 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                   ),
                   TextButton(
                     onPressed: () {
-                      logger.e("BeforeSave1$displayName");
-                      logger.e("BeforeSave2$birthday");
-                      logger.e("BeforeSave3$height");
-                      logger.e("BeforeSave4$weight");
-                      if (displayName.isEmpty &&
-                          birthday.isEmpty &&
-                          height != 0 &&
-                          weight != 0) {
-                        EasyLoading.showInfo("You have to fill data!");
-                      } else {
-                        context.read<ProfileBloc>().add(ProfileCreateEvent(
-                            profileRequest: ProfileRequest(
+                      if (widget.profileResponse != null) {
+                        context.read<ProfileBloc>().add(UpdateProfileEvent(
+                            updateProfileRequest: ProfileRequest(
                                 name: displayName,
                                 birthday: birthday,
                                 height: height,
                                 weight: weight,
                                 interests: [])));
+                      } else {
+                        if (displayName.isEmpty &&
+                            birthday.isEmpty &&
+                            height == 0 &&
+                            weight == 0) {
+                          EasyLoading.showInfo("You have to fill data!");
+                        } else {
+                          context.read<ProfileBloc>().add(ProfileCreateEvent(
+                              profileRequest: ProfileRequest(
+                                  name: displayName,
+                                  birthday: birthday,
+                                  height: height,
+                                  weight: weight,
+                                  interests: [])));
+                        }
                       }
                     },
                     child: const Text(
@@ -182,7 +205,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
               const SizedBox(height: 20),
               AppTextField(
                 label: 'Display name:',
-                hint: 'Enter name',
+                hint: displayName.isNotEmpty ? displayName : 'Enter name',
                 callBackController: getDisplayNameFromCallBack,
               ),
               AppDropDownFiled(
@@ -198,7 +221,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
               ),
               AppDateTextField(
                 label: 'Birthday:',
-                hint: 'DD MM YYYY',
+                hint: birthday.isNotEmpty ? birthday : 'DD MM YYYY',
                 callBackController: getBirthdayFromCallBack,
                 horoscopeSign: getHoroscopeSign,
                 zodiacSign: getZodiacSign,
@@ -207,13 +230,13 @@ class _UserProfileBodyState extends State<UserProfileBody> {
               AppSign(label: "Zodiac", text: zodiac),
               AppTextField(
                 label: 'Height:',
-                hint: 'Add height',
+                hint: height != 0 ? height.toString() : 'Add height',
                 callBackController: getHeightFromCallBack,
               ),
               AppTextField(
                 callBackController: getWeightFromCallBack,
                 label: 'Weight:',
-                hint: 'Add weight',
+                hint: weight != 0 ? weight.toString() : 'Add weight',
               ),
             ],
           ),

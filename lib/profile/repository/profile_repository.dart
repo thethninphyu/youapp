@@ -35,6 +35,7 @@ class ProfileRepository {
       dynamic response = await apiServices.putApiResponse(
           AppBaseUrls.updateProfileEndPoint, data);
 
+      logger.e(response);
       return response;
     } catch (e) {
       logger.e("Error in Update Profile repository $e");

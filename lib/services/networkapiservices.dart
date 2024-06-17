@@ -55,8 +55,21 @@ class NetworkApiService extends BaseApiServices {
   }
 
   @override
-  Future putApiResponse(String url, data) {
-    throw UnimplementedError();
+  Future putApiResponse(String url, data) async {
+    dynamic responseJson;
+
+    try {
+      final response =
+          await dio.put(url, data: data).timeout(const Duration(seconds: 15));
+
+      responseJson = returnResponse(response);
+      logger.d("Response json is $responseJson");
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    logger.d("Network api services $responseJson");
+    return responseJson;
   }
 }
 
