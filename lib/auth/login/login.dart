@@ -119,15 +119,15 @@ class LoginWidgetState extends State<LoginWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.only(left: 41.0),
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                    color: YouAppColor.whiteColor,
-                    fontSize: 24,
-                  ),
+              const Text(
+                'Login',
+                style: TextStyle(
+                  color: YouAppColor.whiteColor,
+                  fontSize: 24,
                 ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               TextFormField(
                 controller: _nameController,
@@ -169,7 +169,7 @@ class LoginWidgetState extends State<LoginWidget> {
                 decoration: _getInputDec(
                   _passwordFocus.hasFocus ? "" : "Enter Password",
                   suffixIcon: InkWell(
-                    child: const Icon(Icons.password),
+                    child: const Icon(Icons.remove_red_eye),
                     onTap: () => setState(() => _hidePwd = !_hidePwd),
                   ),
                 ),
@@ -185,9 +185,13 @@ class LoginWidgetState extends State<LoginWidget> {
                           email: _emailController.text.toString())));
                 },
                 isEnabled: isButtonEnabled,
-                child:Text(
+                child: Text(
                   "Login",
-                  style: TextStyle(color: isButtonEnabled ? YouAppColor.whiteColor : YouAppColor.disableTextColor, fontSize: 16),
+                  style: TextStyle(
+                      color: isButtonEnabled
+                          ? YouAppColor.whiteColor
+                          : YouAppColor.disableTextColor,
+                      fontSize: 16),
                 ),
               ),
               const SizedBox(height: 20),
@@ -198,6 +202,7 @@ class LoginWidgetState extends State<LoginWidget> {
                     TextSpan(
                       text: ' Register here',
                       style: const TextStyle(
+                        fontSize: 13,
                         color: YouAppColor.goldColor,
                         decoration: TextDecoration.underline,
                       ),

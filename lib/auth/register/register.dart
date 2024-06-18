@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/model/authrequest_model.dart';
+import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/register/auth_bloc.dart';
 import 'package:youapp/response/authresponse.dart';
+import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/validator.dart';
 import 'package:youapp/widgets/background.dart';
 import 'package:youapp/widgets/ptb_go_button.dart';
@@ -123,17 +126,14 @@ class RegisterWidgetState extends State<RegisterWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.only(left: 41.0),
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      color: YouAppColor.whiteColor,
-                      fontSize: 24,
-                    ),
+                const Text(
+                  'Register',
+                  style: TextStyle(
+                    color: YouAppColor.whiteColor,
+                    fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _emailController,
                   focusNode: _emailFocus,
@@ -224,26 +224,29 @@ class RegisterWidgetState extends State<RegisterWidget> {
                         color: isButtonEnabled
                             ? YouAppColor.whiteColor
                             : YouAppColor.disableTextColor,
-                        fontSize: 16),
+                        fontSize: 24),
                   ),
                 ),
                 const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerRight,
                   child: RichText(
-                    text: TextSpan(
-                        text: 'Have an account? ',
-                        recognizer: TapGestureRecognizer()..onTap = () => [],
-                        children: const [
-                          TextSpan(
-                            text: 'Login Here',
-                            style: TextStyle(
-                                fontSize: 14,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
-                                color: YouAppColor.goldColor),
-                          ),
-                        ]),
+                    text: TextSpan(text: 'Have an account? ', children: [
+                      TextSpan(
+                        text: 'Login Here',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            AppRouter.changeRoute<AuthModule>(
+                              AuthRoutes.login,
+                            );
+                          },
+                        style: const TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                            color: YouAppColor.goldColor),
+                      ),
+                    ]),
                   ),
                 ),
                 const SizedBox(height: 20),
