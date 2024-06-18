@@ -9,4 +9,7 @@ class AppString {
   static const String updateProfile = "Update Profile";
   static const String registerSuccessMessage =
       "User has been created successfully";
+
+  static const String userAlreadyRegisterMessage = "User already exists";
+  static const String incorrectPassword = "Incorrect password";
 }

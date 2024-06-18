@@ -16,13 +16,14 @@ class UpdateInterestWidget extends StatefulWidget {
 }
 
 class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
-  late double _distanceToField;
+   late double _distanceToField;
   final StringTagController _stringTagController = StringTagController();
+ 
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _distanceToField = MediaQuery.of(context).size.width;
+     _distanceToField = MediaQuery.of(context).size.width;
   }
 
   @override
@@ -41,9 +42,8 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
         actions: [
           TextButton(
             onPressed: () {
-              AppRouter.changeRoute<ProfileModule>(
-                ProfileRoutes.interest, interests: _stringTagController.getTags,isReplace: true
-              );
+              AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest,
+                  interests: _stringTagController.getTags, isReplace: true);
             },
             child: const Text(
               'Save',
@@ -97,6 +97,7 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                   return TextField(
                     controller: inputFieldValues.textEditingController,
                     focusNode: inputFieldValues.focusNode,
+                    keyboardType: TextInputType.multiline,
                     maxLines: null,
                     style: const TextStyle(color: YouAppColor.whiteColor),
                     textInputAction: TextInputAction.done,
@@ -112,6 +113,7 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                         borderSide: BorderSide(
                           color: YouAppColor.whiteColor,
                           width: 3.0,
+                          
                         ),
                       ),
                       helperText: 'Enter your interest...',
@@ -134,9 +136,9 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                                 return Container(
                                   decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(20.0),
+                                      Radius.circular(5.0),
                                     ),
-                                    color: Color.fromARGB(255, 74, 137, 92),
+                                    color: Color.fromRGBO(255, 255, 255, 0.1),
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0,

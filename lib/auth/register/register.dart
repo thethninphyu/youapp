@@ -1,17 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youapp/enum/status.dart';
+import 'package:youapp/util/app_color.dart';
+import 'package:youapp/util/validator.dart';
+import 'package:youapp/util/app_router.dart';
+import 'package:youapp/register/auth_bloc.dart';
+import 'package:youapp/widgets/background.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youapp/response/authresponse.dart';
+import 'package:youapp/widgets/ptb_go_button.dart';
+import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/model/authrequest_model.dart';
 import 'package:youapp/module/auth/auth_module.dart';
-import 'package:youapp/register/auth_bloc.dart';
-import 'package:youapp/response/authresponse.dart';
-import 'package:youapp/routes/auth/auth_routes.dart';
-import 'package:youapp/util/app_color.dart';
-import 'package:youapp/util/app_router.dart';
-import 'package:youapp/util/validator.dart';
-import 'package:youapp/widgets/background.dart';
-import 'package:youapp/widgets/ptb_go_button.dart';
 
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({super.key});
@@ -33,6 +33,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _hidePwd = true;
+  bool _hideConfirmPassword = true;
 
   AuthResponse? responseData;
 
@@ -177,10 +178,10 @@ class RegisterWidgetState extends State<RegisterWidget> {
                     suffixIcon: InkWell(
                       child: _hidePwd
                           ? const Icon(
-                              Icons.visibility_off,
+                              Icons.remove_red_eye,
                               color: YouAppColor.whiteColor,
                             )
-                          : const Icon(Icons.remove_red_eye,
+                          : const Icon(Icons.visibility_off,
                               color: YouAppColor.whiteColor),
                       onTap: () => setState(() => _hidePwd = !_hidePwd),
                     ),
@@ -193,24 +194,25 @@ class RegisterWidgetState extends State<RegisterWidget> {
                 TextFormField(
                   controller: _confirmPasswordController,
                   focusNode: _confirmPassFocus,
-                  validator: (value) =>
-                      validateConfirmPassword(value, _passwordController.text),
+                  validator: (value) => validateConfirmPassword(
+                      value, _confirmPasswordController.text),
                   cursorColor: YouAppColor.whiteColor,
                   keyboardType: TextInputType.visiblePassword,
-                  obscureText: _hidePwd,
+                  obscureText: _hideConfirmPassword,
                   style: const TextStyle(color: YouAppColor.whiteColor),
                   textInputAction: TextInputAction.done,
                   decoration: _getInputDec(
                     _confirmPassFocus.hasFocus ? "" : "Confirm Password",
                     suffixIcon: InkWell(
-                      child: _hidePwd
+                      child: _hideConfirmPassword
                           ? const Icon(
-                              Icons.visibility_off,
+                              Icons.remove_red_eye,
                               color: YouAppColor.whiteColor,
                             )
-                          : const Icon(Icons.remove_red_eye,
+                          : const Icon(Icons.visibility_off,
                               color: YouAppColor.whiteColor),
-                      onTap: () => setState(() => _hidePwd = !_hidePwd),
+                      onTap: () => setState(
+                          () => _hideConfirmPassword = !_hideConfirmPassword),
                     ),
                   ),
                   onFieldSubmitted: (_) => _confirmPassFocus.unfocus(),
