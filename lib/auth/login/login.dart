@@ -169,7 +169,13 @@ class LoginWidgetState extends State<LoginWidget> {
                 decoration: _getInputDec(
                   _passwordFocus.hasFocus ? "" : "Enter Password",
                   suffixIcon: InkWell(
-                    child: const Icon(Icons.remove_red_eye),
+                    child: _hidePwd
+                        ? const Icon(
+                            Icons.visibility_off,
+                            color: YouAppColor.whiteColor,
+                          )
+                        : const Icon(Icons.remove_red_eye,
+                            color: YouAppColor.whiteColor),
                     onTap: () => setState(() => _hidePwd = !_hidePwd),
                   ),
                 ),

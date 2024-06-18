@@ -130,7 +130,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   'Register',
                   style: TextStyle(
                     color: YouAppColor.whiteColor,
-                    fontSize: 16,
+                    fontSize: 24,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -175,8 +175,13 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   decoration: _getInputDec(
                     _passwordFocus.hasFocus ? "" : "Create Password",
                     suffixIcon: InkWell(
-                      child: const Icon(Icons.password,
-                          color: YouAppColor.whiteColor),
+                      child: _hidePwd
+                          ? const Icon(
+                              Icons.visibility_off,
+                              color: YouAppColor.whiteColor,
+                            )
+                          : const Icon(Icons.remove_red_eye,
+                              color: YouAppColor.whiteColor),
                       onTap: () => setState(() => _hidePwd = !_hidePwd),
                     ),
                   ),
@@ -196,14 +201,19 @@ class RegisterWidgetState extends State<RegisterWidget> {
                   style: const TextStyle(color: YouAppColor.whiteColor),
                   textInputAction: TextInputAction.done,
                   decoration: _getInputDec(
-                    _passwordFocus.hasFocus ? "" : "Confirm Password",
+                    _confirmPassFocus.hasFocus ? "" : "Confirm Password",
                     suffixIcon: InkWell(
-                      child: const Icon(Icons.remove_red_eye,
-                          color: YouAppColor.whiteColor),
+                      child: _hidePwd
+                          ? const Icon(
+                              Icons.visibility_off,
+                              color: YouAppColor.whiteColor,
+                            )
+                          : const Icon(Icons.remove_red_eye,
+                              color: YouAppColor.whiteColor),
                       onTap: () => setState(() => _hidePwd = !_hidePwd),
                     ),
                   ),
-                  onFieldSubmitted: (_) => _passwordFocus.unfocus(),
+                  onFieldSubmitted: (_) => _confirmPassFocus.unfocus(),
                 ),
                 const SizedBox(height: 24),
                 YouAppButton(
@@ -224,7 +234,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
                         color: isButtonEnabled
                             ? YouAppColor.whiteColor
                             : YouAppColor.disableTextColor,
-                        fontSize: 24),
+                        fontSize: 16),
                   ),
                 ),
                 const SizedBox(height: 20),
