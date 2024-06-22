@@ -206,7 +206,8 @@ class _UserProfileState extends State<UserProfile> {
               const SizedBox(height: 10),
               IconButton(
                 onPressed: () {
-                  AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest);
+                  AppRouter.changeRoute<ProfileModule>(ProfileRoutes.interest,
+                      args: profileResponse);
                 },
                 icon: const Icon(Icons.edit, color: Colors.grey),
               ),
@@ -214,7 +215,9 @@ class _UserProfileState extends State<UserProfile> {
           ),
           const SizedBox(width: 10),
           Text(
-            description,
+            profileResponse?.userData.interests == null
+                ? description
+                : profileResponse!.userData.interests.join(', '),
             style: const TextStyle(color: Colors.grey, fontSize: 14),
           ),
         ],
@@ -245,14 +248,9 @@ class _UserProfileState extends State<UserProfile> {
               const SizedBox(height: 10),
               IconButton(
                 onPressed: () {
-                  if (title == "Interest") {
-                    AppRouter.changeRoute<ProfileModule>(
-                        ProfileRoutes.interest);
-                  } else {
-                    setState(() {
-                      show = !show;
-                    });
-                  }
+                  setState(() {
+                    show = !show;
+                  });
                 },
                 icon: const Icon(Icons.edit, color: Colors.grey),
               ),
