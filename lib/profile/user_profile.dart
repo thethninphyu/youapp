@@ -134,9 +134,14 @@ class _UserProfileState extends State<UserProfile> {
               Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: YouAppColor.cardBackgroundColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                    color: YouAppColor.cardBackgroundColor,
+                    borderRadius: BorderRadius.circular(8),
+                    image: image == null
+                        ? null
+                        : DecorationImage(
+                            image: FileImage(File(image!.path)),
+                            fit: BoxFit.contain,
+                          )),
                 child: Stack(
                   children: [
                     Positioned(
