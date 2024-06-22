@@ -8,6 +8,7 @@ import 'package:youapp/module/auth/auth_module.dart';
 import 'package:youapp/response/authresponse.dart';
 import 'package:youapp/routes/auth/auth_routes.dart';
 import 'package:youapp/util/app_logger.dart';
+
 import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/app_string.dart';
 
@@ -33,11 +34,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             AuthRoutes.login,
             isReplaceAll: true,
           );
-          logger.d("Regi Rep status is ${authResponse.message}");
-
-          EasyLoading.showSuccess(authResponse.message);
           emit(state.copyWith(
               addStatus: Status.success, response: authResponse));
+
+          EasyLoading.showSuccess(authResponse.message);
+        } else if (authResponse.message ==
+            AppString.userAlreadyRegisterMessage) {
+          logger.d("User Already exot");
+          emit(state.copyWith(addStatus: Status.failed));
+          EasyLoading.showToast(authResponse.message);
         } else {
           emit(state.copyWith(addStatus: Status.failed));
         }
@@ -45,11 +50,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(
           addStatus: Status.failed,
         ));
-        logger.e("Reg error is $e");
 
         EasyLoading.showError('Failed');
-      } finally {
-        EasyLoading.dismiss();
       }
     });
   }

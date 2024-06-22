@@ -11,6 +11,7 @@ import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/services/share_preference.dart';
 
 import 'package:youapp/util/app_router.dart';
+import 'package:youapp/util/app_string.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -32,17 +33,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (loginResponse.access_token != null &&
             loginResponse.access_token!.isNotEmpty) {
           sharePreferenceData.setToken(loginResponse.access_token!);
-        }
 
-        EasyLoading.showSuccess(loginResponse.message);
-        emit(state.copyWith(
-          addStatus: Status.success,
-          response: loginResponse,
-        ));
-        AppRouter.changeRoute<ProfileModule>(
-          ProfileRoutes.profile,
-          isReplaceAll: true,
-        );
+          EasyLoading.showSuccess(loginResponse.message);
+          emit(state.copyWith(
+            addStatus: Status.success,
+            response: loginResponse,
+          ));
+          AppRouter.changeRoute<ProfileModule>(
+            ProfileRoutes.profile,
+            isReplaceAll: true,
+          );
+        } else if (loginResponse.message == AppString.incorrectPassword) {
+          EasyLoading.showToast(loginResponse.message);
+        }
       } catch (e) {
         emit(state.copyWith(addStatus: Status.failed));
       }

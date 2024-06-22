@@ -25,7 +25,9 @@ class YouApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        builder: EasyLoading.init(),
+        builder: (context, child) {
+          return EasyLoading.init()(context, child);
+        },
         debugShowCheckedModeBanner: false,
         title: 'YouApp',
         theme: ThemeData(

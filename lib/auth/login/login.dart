@@ -171,10 +171,10 @@ class LoginWidgetState extends State<LoginWidget> {
                   suffixIcon: InkWell(
                     child: _hidePwd
                         ? const Icon(
-                            Icons.visibility_off,
+                            Icons.remove_red_eye,
                             color: YouAppColor.whiteColor,
                           )
-                        : const Icon(Icons.remove_red_eye,
+                        : const Icon(Icons.visibility_off,
                             color: YouAppColor.whiteColor),
                     onTap: () => setState(() => _hidePwd = !_hidePwd),
                   ),
