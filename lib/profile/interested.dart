@@ -12,7 +12,8 @@ import 'package:youapp/util/custom_app_bar.dart';
 import 'package:youapp/widgets/background.dart';
 
 class InterestScreen extends StatefulWidget {
-  const InterestScreen({super.key});
+  final ProfileResponse profileResponse;
+  const InterestScreen({super.key, required this.profileResponse});
 
   @override
   State<InterestScreen> createState() => _InterestScreenState();
@@ -161,7 +162,9 @@ class _InterestScreenState extends State<InterestScreen> {
                 const SizedBox(height: 20),
                 const AboutWidget(),
                 const SizedBox(height: 25),
-                const InterestWidget(),
+                InterestWidget(
+                  profileResponse: widget.profileResponse,
+                ),
               ],
             ),
           );
@@ -316,9 +319,8 @@ class AboutWidget extends StatelessWidget {
 }
 
 class InterestWidget extends StatelessWidget {
-  const InterestWidget({
-    super.key,
-  });
+  final ProfileResponse profileResponse;
+  const InterestWidget({super.key, required this.profileResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -347,6 +349,7 @@ class InterestWidget extends StatelessWidget {
                 onPressed: () {
                   AppRouter.changeRoute<ProfileModule>(
                       ProfileRoutes.updateInterest,
+                      args: profileResponse,
                       isReplace: true);
                 },
                 icon: const Icon(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:youapp/module/profile/profile_module.dart';
+import 'package:youapp/profile/bloc/profile_bloc.dart';
+import 'package:youapp/profile/response/profile_response.dart';
 
 import 'package:youapp/routes/profile/profile_routes.dart';
 import 'package:youapp/util/app_color.dart';
@@ -8,22 +11,24 @@ import 'package:youapp/util/app_router.dart';
 import 'package:youapp/util/custom_app_bar.dart';
 import 'package:youapp/widgets/background.dart';
 
+import '../profile/request/profile_request.dart';
+
 class UpdateInterestWidget extends StatefulWidget {
-  const UpdateInterestWidget({super.key});
+  final ProfileResponse profileResponse;
+  const UpdateInterestWidget({super.key, required this.profileResponse});
 
   @override
   State<UpdateInterestWidget> createState() => _UpdateInterestWidgetState();
 }
 
 class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
-   late double _distanceToField;
+  late double _distanceToField;
   final StringTagController _stringTagController = StringTagController();
- 
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-     _distanceToField = MediaQuery.of(context).size.width;
+    _distanceToField = MediaQuery.of(context).size.width;
   }
 
   @override
@@ -113,7 +118,6 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                         borderSide: BorderSide(
                           color: YouAppColor.whiteColor,
                           width: 3.0,
-                          
                         ),
                       ),
                       helperText: 'Enter your interest...',
@@ -182,6 +186,16 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                         if (_stringTagController.getError == null) {
                           setState(() {
                             _stringTagController.addTag(value);
+                            context.read<ProfileBloc>().add(ProfileCreateEvent(
+                                profileRequest: ProfileRequest(
+                                    name: widget.profileResponse.userData.name,
+                                    birthday: widget
+                                        .profileResponse.userData.birthday,
+                                    height:
+                                        widget.profileResponse.userData.height,
+                                    weight:
+                                        widget.profileResponse.userData.weight,
+                                    interests: _stringTagController.getTags!)));
                           });
                         }
                       } else {
