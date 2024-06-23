@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:youapp/enum/status.dart';
 import 'package:youapp/module/profile/profile_module.dart';
 import 'package:youapp/profile/bloc/profile_bloc.dart';
@@ -32,6 +33,47 @@ class _UserProfileState extends State<UserProfile> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileBloc>(context).add(GetUserProfileEvent());
     });
+
+    loadImage();
+  }
+
+  void loadImage() async {
+    try {
+      final Directory appDirectory = await getApplicationDocumentsDirectory();
+      final String path = appDirectory.path;
+
+      // List all files in the directory
+      final List<FileSystemEntity> files = Directory(path).listSync();
+
+      File? latestImageFile;
+      int latestTimestamp = 0;
+
+      // Find the latest JPG or PNG image file
+      for (var file in files) {
+        if (file is File &&
+            (file.path.endsWith('.jpg') || file.path.endsWith('.png'))) {
+          logger.d("Found file: ${file.path}");
+          final int fileTimestamp =
+              await file.lastModified().then((dt) => dt.millisecondsSinceEpoch);
+          if (fileTimestamp > latestTimestamp) {
+            latestTimestamp = fileTimestamp;
+            latestImageFile = file;
+          }
+        }
+      }
+
+      // Display the latest image if found
+      if (latestImageFile != null && latestImageFile.existsSync()) {
+        setState(() {
+          image = latestImageFile;
+          logger.d("Retrieved image: $image");
+        });
+      } else {
+        logger.d("No image found.");
+      }
+    } catch (e) {
+      logger.d("Error retrieving image: $e");
+    }
   }
 
   void _handleUpdateProfile() {

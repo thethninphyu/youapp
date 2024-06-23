@@ -130,6 +130,7 @@ class LoginWidgetState extends State<LoginWidget> {
                 height: 10,
               ),
               TextFormField(
+                 key: Key('nameField'),
                 controller: _nameController,
                 focusNode: _nameFocus,
                 cursorColor: YouAppColor.whiteColor,
@@ -144,6 +145,7 @@ class LoginWidgetState extends State<LoginWidget> {
               const SizedBox(height: 8),
               const SizedBox(height: 8),
               TextFormField(
+                 key: Key('emailField'),
                 controller: _emailController,
                 focusNode: _emailFocus,
                 cursorColor: YouAppColor.whiteColor,
@@ -158,6 +160,7 @@ class LoginWidgetState extends State<LoginWidget> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                  key: Key('passwordField'),
                 controller: _passwordController,
                 focusNode: _passwordFocus,
                 validator: validatePassword,
@@ -183,6 +186,7 @@ class LoginWidgetState extends State<LoginWidget> {
               ),
               const SizedBox(height: 24),
               YouAppButton(
+                key: Key('login_button'),
                 onPressed: () {
                   context.read<LoginBloc>().add(LoginRequestEvent(
                       loginRequestModel: AuthRequestModel(
