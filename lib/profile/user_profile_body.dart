@@ -100,9 +100,7 @@ class _UserProfileBodyState extends State<UserProfileBody> {
       final String path = (await getApplicationDocumentsDirectory()).path;
 
       File convertedImg = File(_image!.path);
-      // Step 4: Copy the file to a application document directory.
-      // final fileName = basename(convertedImg.path);
-
+    
       final String fileName = image!.path.split('/').last;
       final File localImage = await convertedImg.copy('$path/$fileName');
 

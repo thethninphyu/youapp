@@ -99,111 +99,118 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                   return null;
                 },
                 inputFieldBuilder: (context, inputFieldValues) {
-                  return TextField(
-                    controller: inputFieldValues.textEditingController,
-                    focusNode: inputFieldValues.focusNode,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    style: const TextStyle(color: YouAppColor.whiteColor),
-                    textInputAction: TextInputAction.done,
-                    cursorColor: YouAppColor.whiteColor,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: YouAppColor.whiteColor,
-                          width: 3.0,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: inputFieldValues.textEditingController,
+                      focusNode: inputFieldValues.focusNode,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      style: const TextStyle(color: YouAppColor.whiteColor),
+                      textInputAction: TextInputAction.done,
+                      cursorColor: YouAppColor.whiteColor,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: YouAppColor.whiteColor,
+                            width: 3.0,
+                          ),
                         ),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: YouAppColor.whiteColor,
-                          width: 3.0,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: YouAppColor.whiteColor,
+                            width: 3.0,
+                          ),
                         ),
-                      ),
-                      helperText: 'Enter your interest...',
-                      helperStyle: const TextStyle(
-                        color: YouAppColor.whiteColor,
-                      ),
-                      hintText: inputFieldValues.tags.isNotEmpty
-                          ? ''
-                          : "Enter your interest...",
-                      errorText: inputFieldValues.error,
-                      hintStyle: const TextStyle(color: YouAppColor.whiteColor),
-                      prefixIconConstraints:
-                          BoxConstraints(maxWidth: _distanceToField * 0.74),
-                      prefixIcon: inputFieldValues.tags.isNotEmpty
-                          ? Wrap(
-                              direction: Axis.horizontal,
-                              spacing: 8.0,
-                              children:
-                                  inputFieldValues.tags.map((String tagData) {
-                                return Container(
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5.0),
-                                    ),
-                                    color: Color.fromRGBO(255, 255, 255, 0.1),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0,
-                                    vertical: 4.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      InkWell(
-                                        child: Text(
-                                          '#$tagData',
-                                          style: const TextStyle(
-                                            color: YouAppColor.whiteColor,
+                        helperText: 'Enter your interest...',
+                        helperStyle: const TextStyle(
+                          color: YouAppColor.whiteColor,
+                        ),
+                        hintText: inputFieldValues.tags.isNotEmpty
+                            ? ''
+                            : "Enter your interest...",
+                        errorText: inputFieldValues.error,
+                        hintStyle: const TextStyle(color: YouAppColor.whiteColor),
+                        prefixIconConstraints:
+                            BoxConstraints(maxWidth: _distanceToField * 0.74),
+                        prefixIcon: inputFieldValues.tags.isNotEmpty
+                            ? Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Wrap(
+                                  direction: Axis.horizontal,
+                                  spacing: 8.0,
+                                  runSpacing: 10,
+                                  children:
+                                      inputFieldValues.tags.map((String tagData) {
+                                    return Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0),
+                                        ),
+                                        color: Color.fromRGBO(255, 255, 255, 0.1),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0,
+                                        vertical: 4.0,
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          InkWell(
+                                            child: Text(
+                                              '#$tagData',
+                                              style: const TextStyle(
+                                                color: YouAppColor.whiteColor,
+                                              ),
+                                            ),
+                                            onTap: () {},
                                           ),
-                                        ),
-                                        onTap: () {},
+                                          const SizedBox(width: 4.0),
+                                          InkWell(
+                                            child: const Icon(
+                                              Icons.cancel,
+                                              size: 14.0,
+                                              color: Color.fromARGB(
+                                                  255, 233, 233, 233),
+                                            ),
+                                            onTap: () {
+                                              inputFieldValues.onTagDelete(tagData);
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(width: 4.0),
-                                      InkWell(
-                                        child: const Icon(
-                                          Icons.cancel,
-                                          size: 14.0,
-                                          color: Color.fromARGB(
-                                              255, 233, 233, 233),
-                                        ),
-                                        onTap: () {
-                                          inputFieldValues.onTagDelete(tagData);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
                             )
-                          : null,
-                    ),
-                    onSubmitted: (value) {
-                      if (_stringTagController.getValidator != null) {
-                        _stringTagController.setError =
-                            _stringTagController.getValidator!(value);
-                        if (_stringTagController.getError == null) {
+                            : null,
+                      ),
+                      onSubmitted: (value) {
+                        if (_stringTagController.getValidator != null) {
+                          _stringTagController.setError =
+                              _stringTagController.getValidator!(value);
+                          if (_stringTagController.getError == null) {
+                            setState(() {
+                              _stringTagController.addTag(value);
+                              context.read<ProfileBloc>().add(ProfileCreateEvent(
+                                  profileRequest: ProfileRequest(
+                                      name: widget.profileResponse.userData.name,
+                                      birthday: widget
+                                          .profileResponse.userData.birthday,
+                                      height:
+                                          widget.profileResponse.userData.height,
+                                      weight:
+                                          widget.profileResponse.userData.weight,
+                                      interests: _stringTagController.getTags!)));
+                            });
+                          }
+                        } else {
                           setState(() {
                             _stringTagController.addTag(value);
-                            context.read<ProfileBloc>().add(ProfileCreateEvent(
-                                profileRequest: ProfileRequest(
-                                    name: widget.profileResponse.userData.name,
-                                    birthday: widget
-                                        .profileResponse.userData.birthday,
-                                    height:
-                                        widget.profileResponse.userData.height,
-                                    weight:
-                                        widget.profileResponse.userData.weight,
-                                    interests: _stringTagController.getTags!)));
                           });
                         }
-                      } else {
-                        setState(() {
-                          _stringTagController.addTag(value);
-                        });
-                      }
-                    },
+                      },
+                    ),
                   );
                 },
               ),

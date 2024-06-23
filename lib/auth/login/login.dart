@@ -145,7 +145,7 @@ class LoginWidgetState extends State<LoginWidget> {
               const SizedBox(height: 8),
               const SizedBox(height: 8),
               TextFormField(
-                 key: Key('emailField'),
+                 key: const Key('emailField'),
                 controller: _emailController,
                 focusNode: _emailFocus,
                 cursorColor: YouAppColor.whiteColor,
@@ -160,7 +160,7 @@ class LoginWidgetState extends State<LoginWidget> {
               ),
               const SizedBox(height: 8),
               TextFormField(
-                  key: Key('passwordField'),
+                  key: const Key('passwordField'),
                 controller: _passwordController,
                 focusNode: _passwordFocus,
                 validator: validatePassword,
