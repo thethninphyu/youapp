@@ -130,24 +130,26 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                             ? ''
                             : "Enter your interest...",
                         errorText: inputFieldValues.error,
-                        hintStyle: const TextStyle(color: YouAppColor.whiteColor),
+                        hintStyle:
+                            const TextStyle(color: YouAppColor.whiteColor),
                         prefixIconConstraints:
                             BoxConstraints(maxWidth: _distanceToField * 0.74),
                         prefixIcon: inputFieldValues.tags.isNotEmpty
                             ? Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Wrap(
+                                padding: const EdgeInsets.all(12),
+                                child: Wrap(
                                   direction: Axis.horizontal,
                                   spacing: 8.0,
                                   runSpacing: 10,
-                                  children:
-                                      inputFieldValues.tags.map((String tagData) {
+                                  children: inputFieldValues.tags
+                                      .map((String tagData) {
                                     return Container(
                                       decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(5.0),
                                         ),
-                                        color: Color.fromRGBO(255, 255, 255, 0.1),
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 0.1),
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0,
@@ -174,7 +176,8 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                                                   255, 233, 233, 233),
                                             ),
                                             onTap: () {
-                                              inputFieldValues.onTagDelete(tagData);
+                                              inputFieldValues
+                                                  .onTagDelete(tagData);
                                             },
                                           ),
                                         ],
@@ -182,26 +185,33 @@ class _UpdateInterestWidgetState extends State<UpdateInterestWidget> {
                                     );
                                   }).toList(),
                                 ),
-                            )
+                              )
                             : null,
                       ),
                       onSubmitted: (value) {
+                        if (value.trim().isEmpty) {
+                          return;
+                        }
+
                         if (_stringTagController.getValidator != null) {
                           _stringTagController.setError =
                               _stringTagController.getValidator!(value);
                           if (_stringTagController.getError == null) {
                             setState(() {
                               _stringTagController.addTag(value);
-                              context.read<ProfileBloc>().add(ProfileCreateEvent(
-                                  profileRequest: ProfileRequest(
-                                      name: widget.profileResponse.userData.name,
-                                      birthday: widget
-                                          .profileResponse.userData.birthday,
-                                      height:
-                                          widget.profileResponse.userData.height,
-                                      weight:
-                                          widget.profileResponse.userData.weight,
-                                      interests: _stringTagController.getTags!)));
+                              context.read<ProfileBloc>().add(
+                                  ProfileCreateEvent(
+                                      profileRequest: ProfileRequest(
+                                          name: widget
+                                              .profileResponse.userData.name,
+                                          birthday: widget.profileResponse
+                                              .userData.birthday,
+                                          height: widget
+                                              .profileResponse.userData.height,
+                                          weight: widget
+                                              .profileResponse.userData.weight,
+                                          interests:
+                                              _stringTagController.getTags!)));
                             });
                           }
                         } else {
