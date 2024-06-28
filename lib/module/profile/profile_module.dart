@@ -13,7 +13,7 @@ class ProfileModule extends Module {
         ChildRoute(ProfileRoutes.about,
             child: (context, args) => const AboutCard()),
         ChildRoute(ProfileRoutes.interest,
-            child: (context, args) => InterestScreen(
+            child: (context, args) => UpdateInterestWidget(
                   profileResponse: args.data,
                 )),
         ChildRoute(ProfileRoutes.updateInterest,
